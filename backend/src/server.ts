@@ -60,8 +60,6 @@ export class Server {
         "yuv420p",
         "-acodec",
         "aac",
-        "-movflags",
-        "+faststart",
         "-c:a",
         "aac",
         "-f",
