@@ -65,7 +65,7 @@ export class Server {
         "-c:a",
         "aac",
         "-f",
-        "lafvi",
+        "lavfi",
         "-i",
         "anullsrc=r=48000:cl=stereo",
         "-f",
