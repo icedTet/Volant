@@ -32,19 +32,32 @@ export class StreamMerger extends EventEmitter {
     this.videoStream = stream;
     this.emit("videoStream", stream);
     console.log(stream);
+    if (this.merger) {
+      this.merger.stop();
+      this.renderStream();
+    }
+    
   }
   setScreenStream(stream: MediaStream) {
     this.screenStream = stream;
     this.emit("screenStream", stream);
     console.log(stream);
+    if (this.merger) {
+      this.merger.stop();
+      this.renderStream();
+    }
   }
   setAudioStream(stream: MediaStream) {
     this.audioStream = stream;
     this.emit("audioStream", stream);
+    if (this.merger) {
+      this.merger.stop();
+      this.renderStream();
+    }
   }
   toggleLargeStream(enable: boolean) {
     this.largeStream = enable;
-    if(this.merger) {
+    if (this.merger) {
       this.merger.stop();
       this.renderStream();
     }
