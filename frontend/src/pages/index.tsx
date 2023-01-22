@@ -120,7 +120,7 @@ export const HomePage = () => {
               {Array.from(modelMap?.keys() || []).map((key) => (
                 <AnimeGirlCard
                   key={`anime-card-${key}`}
-                  model={VRMLoader.getInstance().modelMap.get(key)!}
+                  // model={VRMLoader.getInstance().modelMap.get(key)!}
                   data={VRMLoader.getInstance().modelDataMap.get(key)!}
                   onClick={(model) => {
                     VRMLoader.getInstance().setPrimaryModel(model.id);

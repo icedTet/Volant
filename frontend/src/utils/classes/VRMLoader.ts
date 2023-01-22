@@ -54,6 +54,7 @@ export class VRMLoader extends EventEmitter {
     super();
     this.modelMap = new Map();
     this.modelDataMap = new Map();
+    this.selectedModel = globalThis?.localStorage?.getItem("selectedModel");
     // this.cacheLoad();
   }
   async cacheLoad() {
@@ -108,7 +109,7 @@ export class VRMLoader extends EventEmitter {
     console.log("setPrimaryModel", id, this.modelDataMap.has(id));
     if (!this.modelDataMap.has(id)) return false;
     this.selectedModel = id;
-    localforage.setItem("selectedModel", id);
+    globalThis?.localStorage?.setItem("selectedModel", id);
     this.emit("primaryModelChanged", id);
     console.log("setPrimaryModelEmit", id);
   }
@@ -129,17 +130,15 @@ export class VRMFile extends EventEmitter {
   url: string;
   name: string;
   id: string;
-  loader: GLTFLoader;
   constructor(url: string, name: string, id: string) {
     super();
     this.url = url;
     this.name = name;
     this.id = id;
-    this.loader = new GLTFLoader();
     this.loadVRM();
   }
   async loadVRM() {
-    const gltf = await this.loader.loadAsync(this.url);
+    const gltf = await (new GLTFLoader()).loadAsync(this.url);
     const vrm = await VRM.from(gltf);
     VRMUtils.removeUnnecessaryJoints(gltf.scene);
     gltf.scene.rotation.y = Math.PI;
@@ -169,7 +168,7 @@ export class VRMFile extends EventEmitter {
       }
     }
     // clone VRM
-    const gltf = await this.loader.loadAsync(this.url);
+    const gltf = await (new GLTFLoader()).loadAsync(this.url);
     const vrm = await VRM.from(this.gltf!);
     VRMUtils.removeUnnecessaryJoints(gltf.scene);
     gltf.scene.rotation.y = Math.PI;

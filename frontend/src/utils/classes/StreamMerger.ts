@@ -16,6 +16,7 @@ export class StreamMerger extends EventEmitter {
   width: number;
   height: number;
   fps: number;
+  largeStream?: boolean;
   private constructor() {
     super();
     this.width = 1920;
@@ -41,6 +42,14 @@ export class StreamMerger extends EventEmitter {
     this.audioStream = stream;
     this.emit("audioStream", stream);
   }
+  toggleLargeStream(enable: boolean) {
+    this.largeStream = enable;
+    if(this.merger) {
+      this.merger.stop();
+      this.renderStream();
+    }
+  }
+
   renderStream() {
     // if (!this.videoStream || !this.screenStream) {
     //   return;
@@ -52,22 +61,34 @@ export class StreamMerger extends EventEmitter {
       clearRect: false,
       audioContext: null as any,
     });
-    this.screenStream &&
-      this.merger.addStream(this.screenStream, {
-        x: 0,
-        y: 0,
-        width: this.width,
-        height: this.height,
-        mute: false,
-      } as any);
-    this.videoStream &&
-      this.merger.addStream(this.videoStream, {
-        x: 0,
-        y: 0,
-        width: this.width / 4,
-        height: (this.width * 0.5625) / 4,
-        mute: false,
-      } as any);
+    if (this.largeStream) {
+      this.videoStream &&
+        this.merger.addStream(this.videoStream, {
+          x: 0,
+          y: 0,
+          width: this.width,
+          height: this.height,
+          mute: false,
+        } as any);
+    } else {
+      this.screenStream &&
+        this.merger.addStream(this.screenStream, {
+          x: 0,
+          y: 0,
+          width: this.width,
+          height: this.height,
+          mute: false,
+        } as any);
+      this.videoStream &&
+        this.merger.addStream(this.videoStream, {
+          x: (this.width * 3) / 4,
+          y: (this.width * 0.4375) / 4,
+          width: this.width / 4,
+          height: (this.width * 0.5625) / 4,
+          mute: false,
+        } as any);
+    }
+
     this.audioStream && this.merger.addStream(this.audioStream, undefined);
     this.emit("renderStream", this.merger.result);
     this.merger.start();

@@ -7,7 +7,9 @@ import { ModelRenderer } from "./Weeb/ModelRender";
 import React from "react";
 import { StreamMerger } from "../utils/classes/StreamMerger";
 
-export const WeebFeed = () => {
+export const WeebFeed = (props:{
+  large?: boolean;
+}) => {
   const model = useSelectedModel();
   const camera = useRef<PerspectiveCamera>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,19 +51,20 @@ export const WeebFeed = () => {
       <Canvas
         eventSource={globalThis?.document?.getElementById("root")!}
         eventPrefix="client"
-        className={`bg-gray-500 w-full h-full absolute top-0 left-0`}
+        className={`bg-black w-full h-full absolute top-0 left-0`}
         frameloop="always"
         ref={canvasRef}
       >
         <PCamera
-          position={new Vector3(0, 2, 3)}
+          position={new Vector3(0, 0,0)}
           makeDefault
           zoom={1}
           ref={camera}
         ></PCamera>
         <ambientLight intensity={1} />
+        
         {/* <OrbitControls camera={camera.current} enableDamping={false} /> */}
-        {model && <ModelRenderer model={model} camera={camera} />}
+        {model && <ModelRenderer model={model} camera={camera} large={props.large} />}
       </Canvas>
     </div>
   );

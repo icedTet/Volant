@@ -9,16 +9,16 @@ import { AnimeGirlObject } from "./AnimeGirlObject";
 
 export const AnimeGirlRenderer = (props: { model?: VRM | null }) => {
   const { model } = props;
-  const [animations, setAnimations] = useState(null as AnimationClip[] | null);
+  // const [animations, setAnimations] = useState(null as AnimationClip[] | null);
   useEffect(() => {
     model?.scene.rotation.set(0, Math.PI, 0);
   }, [model]);
-  useEffect(() => {
-    if (!model) return;
-    loadMixamoAnimation("animation/Idle3.fbx", model).then((animations) => {
-      setAnimations([animations]);
-    });
-  }, [model]);
+  // useEffect(() => {
+  //   if (!model) return;
+  //   loadMixamoAnimation("animation/Idle3.fbx", model).then((animations) => {
+  //     setAnimations([animations]);
+  //   });
+  // }, [model]);
   useMemo(() => {
     if (!model) return;
     const meshes = [...model.scene.children];
@@ -59,8 +59,8 @@ export const AnimeGirlRenderer = (props: { model?: VRM | null }) => {
           castShadow
         />
       )}
-      {model && animations && (
-        <AnimeGirlObject model={model} animation={animations} />
+      {model && (
+        <AnimeGirlObject model={model} camera={camera} />
       )}
       <ambientLight intensity={0.05} />
       <Cylinder
@@ -77,7 +77,7 @@ export const AnimeGirlRenderer = (props: { model?: VRM | null }) => {
         zoom={1}
         ref={camera}
       ></PerspectiveCamera>
-      <OrbitControls enableDamping={false} />
+      {/* <OrbitControls enableDamping={false} po /> */}
     </Canvas>
   );
 };

@@ -7,6 +7,7 @@ import { PerspectiveCamera, Vector3 } from "three";
 export const ModelRenderer = (props: {
   model: VRM;
   camera: React.MutableRefObject<PerspectiveCamera | null>;
+  large?: boolean;
 }) => {
   const { model, camera } = props;
   console.log("ModelRenderer", model);
@@ -30,14 +31,24 @@ export const ModelRenderer = (props: {
       ?.getBoneNode(VRMSchema.HumanoidBoneName.Head)
       ?.getWorldPosition(newVector);
     console.log("newVector", newVector);
-    if (newVector)
-      camera?.current?.position.set(
-        0,
-        newVector.y,
-        newVector.z + (newVector.y * 1) ** 0.7
-      );
-    camera.current.rotation.set(0, 0, Math.PI*0.05);
-  }, [model]);
+    if (newVector) {
+      if (props.large) {
+        camera?.current?.position.set(
+          0,
+          newVector.y * 0.8,
+          newVector.z + (newVector.y * 1) ** 1.3
+        );
+      } else {
+        camera?.current?.position.set(
+          0,
+          newVector.y * 1.05,
+          newVector.z + (newVector.y * 0.8) ** 0.7
+        );
+      }
+    }
+
+    camera.current.rotation.set(0, 0, Math.PI * 0.05);
+  }, [model, props.large]);
   useFrame((state, delta, xrFrame) => {
     model?.update(delta);
     // const newVector = new Vector3(0, 0, 0);
@@ -51,7 +62,7 @@ export const ModelRenderer = (props: {
   });
   return (
     <group>
-      <primitive object={model?.scene} />
+      <primitive object={model?.scene} scale={2} />
     </group>
   );
 };

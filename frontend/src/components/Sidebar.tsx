@@ -8,7 +8,7 @@ export const Sidebar = () => {
     setIsSVG1(!isSVG1);
   };
   return (
-    <div className="rounded-lg">
+    <div className="rounded-lg p-1 bg-gray-300 w-16 flex flex-col align-center justify-center">
       <ul>
         <li>
       <button onClick={handleClick} className='p-2'>
@@ -108,3 +108,5 @@ export const Sidebar = () => {
     </div>
   );
 };
+
+export default Sidebar;

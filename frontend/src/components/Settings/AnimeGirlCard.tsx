@@ -6,13 +6,29 @@ import { PerspectiveCamera as PCamera } from "@react-three/drei";
 import { AnimationClip, PerspectiveCamera } from "three";
 import { loadMixamoAnimation } from "../../utils/loadFBX";
 import { usePrimaryModel } from "../../utils/hooks/usePrimaryModel";
+import { VRM } from "@pixiv/three-vrm";
 export const AnimeGirlCard = (props: {
   data: ModelData;
-  model: VRMFile;
-  onClick: (model: VRMFile) => void;
+  onClick: (model: ModelData) => void;
 }) => {
-  const { data, model, onClick } = props;
+  const { data, onClick } = props;
   const pmodel = usePrimaryModel();
+  const [model, setModel] = useState(null as VRM | null);
+  useEffect(() => {
+    const load = async () => {
+      const model = await VRMLoader.getInstance().getModel(data.id).getVRM();
+      setModel(model);
+    };
+
+    if (!VRMLoader.getInstance().ready) {
+      VRMLoader.getInstance().on("ready", () => {
+        load();
+      });
+    } else {
+      load();
+    }
+  }, [data.id]);
+
   const camera = useRef<PerspectiveCamera>(null);
   return (
     <div
@@ -21,15 +37,16 @@ export const AnimeGirlCard = (props: {
           ? `ring-2 ring-purple-500 hover:ring-4`
           : `hover:ring-2`
       } duration-300`}
-      onClick={() => onClick(model)}
+      onClick={() => onClick(data)}
     >
       <div className={`w-full h-full`}>
         <Canvas
           frameloop="demand"
           className={`w-full h-full absolute top-0 left-0`}
+          
         >
           <VRMFileRenderer model={model} camera={camera} />
-          <ambientLight intensity={3} />
+          <ambientLight intensity={1} />
           <PCamera
             makeDefault
             position={[0, 3, 4]}
@@ -43,9 +60,19 @@ export const AnimeGirlCard = (props: {
       <div
         className={`absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-gray-200/50 to-gray-200 group-hover:opacity-80 transition-all duration-300`}
       />
-      <div className={`absolute bottom-0 left-0 w-full h-fit p-4 flex flex-col gap-2`}>
-        <span className={`text-lg font-bold text-gray-600 font-wsans`}>{data.name}</span>
-          <span className={`text-sm text-purple-500 ${pmodel === data.id ? `opacity-100`: `opacity-0`} transition-all duration-300 font-bold`}>Selected</span>
+      <div
+        className={`absolute bottom-0 left-0 w-full h-fit p-4 flex flex-col gap-2`}
+      >
+        <span className={`text-lg font-bold text-gray-600 font-wsans`}>
+          {data.name}
+        </span>
+        <span
+          className={`text-sm text-purple-500 ${
+            pmodel === data.id ? `opacity-100` : `opacity-0`
+          } transition-all duration-300 font-bold`}
+        >
+          Selected
+        </span>
       </div>
     </div>
   );

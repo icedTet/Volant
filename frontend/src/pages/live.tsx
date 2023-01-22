@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { CameraFeed } from "../components/CameraFeed";
 import { ScreenFeed } from "../components/ScreenFeed";
 import { WeebFeed } from "../components/WeebFeed";
@@ -6,13 +6,50 @@ import { MicrophoneStreamer } from "../utils/classes/AudioManager";
 import SocketConnection from "../utils/classes/SocketStreamer";
 import { StreamMerger } from "../utils/classes/StreamMerger";
 import Draggable from "react-draggable"
+import ReactDOM from 'react-dom';
+import Sidebar from "../components/Sidebar"
+import { ComputerDesktopIcon, PauseIcon, Cog6ToothIcon, MicrophoneIcon, ArrowsUpDownIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+
 
 export const LivePage = () => {
+  const [recording, setRecording] = useState(false);
+  const [enableAudio, setEnableAudio] = useState(false);
+  const [switchFeed, setSwitchFeed] = useState(false)
+
+  useEffect(() => {
+    StreamMerger.getInstance().renderStream();
+    SocketConnection.getInstance().startStream();
+  }, [])
+
+  useEffect(() => {
+    if(enableAudio) {
+      MicrophoneStreamer.getInstance().getMicrophoneAccess();
+    }
+  }, [enableAudio])
+
+  useEffect(() => {
+    StreamMerger.getInstance().toggleLargeStream(switchFeed)
+  }, [switchFeed])
+
+  const toggleRecording = () => {
+    setRecording((r) => !r)
+  }
+  
+  const toggleAudio = () => {
+    setEnableAudio((a) => !a)
+  }
+
+  const toggleFeed = () => {
+    setSwitchFeed((s) => !s)
+  }
+
   return (
-    <>
     <div className={`w-screen h-screen relative`}>
       <div className={`absolute top-0 left-0 w-full h-full z-0`}>
-        <ScreenFeed />
+        {!switchFeed ? <ScreenFeed enable={recording} onError={(e) => setRecording(false)} /> : 
+          <WeebFeed large />}
+        
       </div>
       <div
         className={`absolute bottom-4 right-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden`}
@@ -22,38 +59,16 @@ export const LivePage = () => {
       <div
         className={`absolute bottom-80 right-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden`}
       >
-        <WeebFeed />
+        {switchFeed ? <ScreenFeed enable={recording} onError={(e) => setRecording(false)} /> : 
+          <WeebFeed />}
       </div>
-      <div className="absolute bottom-4 left-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden">
-        <button
-          className="w-full bg-gray-200"
-          onClick={() => {
-            StreamMerger.getInstance().renderStream();
-            SocketConnection.getInstance().startStream();
-          }}
-        >
-          Chat
-        </button>
-        <button
-          className="w-full bg-gray-200"
-          onClick={() => {
-            MicrophoneStreamer.getInstance().getMicrophoneAccess();
-          }}
-        >
-          MicOn
-        </button>
+      <div className="fixed left-0 p-3 m-3 top-16 flex flex-col w-16 bg-gray-300 rounded-lg space-y-5">
+          <button onClick={toggleRecording} className="hover:bg-gray-400 p-1 rounded-lg">{!recording ? <ComputerDesktopIcon /> : <PauseIcon />}</button>
+          <button onClick={toggleFeed} className="hover:bg-gray-400 p-1 rounded-lg"><ArrowsUpDownIcon/></button>
+          <Link href="/" className="hover:bg-gray-400 p-1 rounded-lg">{<Cog6ToothIcon />}</Link>
+          {!enableAudio && <button onClick={toggleAudio} className="hover:bg-gray-400 p-1 rounded-lg">{<MicrophoneIcon />}</button>}
       </div>
     </div>
-      <Draggable 
-       axis="x"
-       handle=".handle"
-       defaultPosition={{x: 0, y: 0}}
-       position={null}
-       grid={[25, 25]}
-       scale={1}>
-        <div className={"w-64 h-64"}>I can now be moved around!</div>
-      </Draggable> 
-    </>
   );
 };
 export default LivePage;
