@@ -21,6 +21,8 @@ export class Server {
       },
     });
 
+    this.io.on("ah", () => console.log("ahh"));
+
     console.log(`Starting on ${this.DEFAULT_PORT}`);
 
     this.setupSocketHandlers();
@@ -29,7 +31,6 @@ export class Server {
   private setupSocketHandlers(): void {
     this.io.on("connection", (socket) => {
       console.log(`Connection UUID: ${socket.id}`);
-      this.io.emit("hello", "world");
 
       const existingSocket = this.activeSockets.find(
         (existingSocket) => existingSocket === socket.id
