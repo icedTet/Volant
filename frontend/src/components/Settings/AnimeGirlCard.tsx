@@ -5,16 +5,18 @@ import { VRMFileRenderer } from "./VRMFileRenderer";
 import { PerspectiveCamera as PCamera } from "@react-three/drei";
 import { AnimationClip, PerspectiveCamera } from "three";
 import { loadMixamoAnimation } from "../../utils/loadFBX";
+import { usePrimaryModel } from "../../utils/hooks/usePrimaryModel";
 export const AnimeGirlCard = (props: {
   data: ModelData;
   model: VRMFile;
   onClick: (model: VRMFile) => void;
 }) => {
   const { data, model } = props;
+  const pmodel = usePrimaryModel();
   const camera = useRef<PerspectiveCamera>(null);
   return (
     <div
-      className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden hover:bg-gray-50 group cursor-pointer hover:shadow-lg transition-all hover:ring-2 duration-300`}
+      className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden hover:bg-gray-50 group cursor-pointer hover:shadow-lg transition-all ${pmodel === data.id ? `ring-2 ring-purple-500 hover:ring-4`: `hover:ring-2`} duration-300`}
     >
       <div className={`w-full h-full`}>
         <Canvas
