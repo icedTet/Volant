@@ -20,7 +20,7 @@ export const AnimeGirlCard = (props: {
     >
       <div className={`w-full h-full`}>
         <Canvas
-          frameloop="always"
+          frameloop="demand"
           className={`w-full h-full absolute top-0 left-0`}
         >
           <VRMFileRenderer model={model} camera={camera} />
