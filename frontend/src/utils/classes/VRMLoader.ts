@@ -189,6 +189,7 @@ modelDefaultData.map((modelDefaultData) => {
   VRMLoader.getInstance().load(url, name, id);
   VRMLoader.getInstance().modelDataMap.set(id, modelDefaultData);
   VRMLoader.getInstance().emit("modelDataAdded", modelDefaultData);
+  VRMLoader.getInstance().setPrimaryModel("rin");
   VRMLoader.getInstance().ready = true;
   VRMLoader.getInstance().emit("ready");
 });

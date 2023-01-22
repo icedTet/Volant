@@ -42,7 +42,6 @@ export const Settings = () => {
             >
               Stream Connection Settings
             </h2>
-            {/* <hr className={`border-gray-900/10 pb-4`} /> */}
             <div className={`flex flex-col gap-4 w-[65ch]`}>
               <input
                 type={"text"}
@@ -115,14 +114,12 @@ export const Settings = () => {
               Avatar Settings
             </h2>
             <div className={`grid grid-cols-3 gap-4 w-full`}>
-              {/* {JSON.stringify(Array.from(modelMap?.keys() || [0]))} */}
               {Array.from(modelMap?.keys() || []).map((key) => (
                 <AnimeGirlCard
                   key={`anime-card-${key}`}
                   model={VRMLoader.getInstance().modelMap.get(key)!}
                   data={VRMLoader.getInstance().modelDataMap.get(key)!}
-                  onClick={() => {
-                  }}
+                  onClick={() => {}}
                 />
               ))}
             </div>
@@ -133,80 +130,6 @@ export const Settings = () => {
         <AnimeGirlRenderer model={model} />
       </div>
     </div>
-
-    // <div className="container flex items-top mx-auto min-h-screen justify-left">
-    //   <div>
-    //     <h1 className="text-3xl font-bold">Settings</h1>
-    //     <h1 className="text-1xl font-bold">Enter Stream Key</h1>
-    //     <input
-    //       type={"text"}
-    //       placeholder="Enter your stream key"
-    //       className="basicinput"
-    //       value={key}
-    //       onChange={(e) => setKey(e.target.value)}
-    //     />
-    //     <h1 className="text-1xl font-bold">Upload Avatar</h1>
-    //     <input
-    //       id={"avatar"}
-    //       type={"file"}
-    //       className={`hidden`}
-    //       onInput={(e) => {
-    //         const newAvatar = (
-    //           document.getElementById("avatar") as HTMLInputElement
-    //         )?.files?.item(0);
-
-    //         setAvatar(newAvatar);
-    //       }}
-    //     />
-    //     <div
-    //     className={`flex-grow
-    //     ${
-    //       fileHovering && `bg-gray-800 z-40`
-    //     } transition-all relative overflow-auto flex flex-row items-center justify-center pointer-events-auto w-64 h-64`}
-    //     onDragOver={e => {
-    //       setFileHovering(true)
-    //       e.preventDefault()
-    //     }}
-    //     onDragLeave={() => setFileHovering(false)}
-    //     onDrop={e => {
-    //       e.preventDefault()
-    //       setFileHovering(false)
-    //       const files = e.dataTransfer.files
-    //       const filesToAdd = Array.from(files)
-    //       localforage.setItem("avatar", filesToAdd[0])
-    //     }}
-    //   />
-    //     <Button
-    //       onClick={(e) => {
-    //         const newAvatar = (
-    //           document.getElementById("avatar") as HTMLInputElement
-    //         ).click()
-    //       }}
-    //       roundedNess={ButtonRoundedness.sm}
-    //       size={ButtonSize.lg}
-    //       color={ButtonColor.light}
-    //     >
-    //       Upload Model
-    //     </Button>
-    //     <h1 className="text-1xl font-bold">Set Performance Value</h1>
-    //     <input
-    //       type={"text"}
-    //       disabled = {true}
-    //       placeholder="Performance Value"
-    //       className="basicinput"
-    //       value={performance}
-    //       onChange={(e) => setPerformance(e.target.value)}
-    //     />
-    //     <input
-    //       type={"range"}
-    //       placeholder="How high do you want performance to be?"
-    //       className="range"
-    //       max={2}
-    //       value={performance}
-    //       onChange={(e) => setPerformance(e.target.value)}
-    //     />
-    //   </div>
-    // </div>
   );
 };
 export default Settings;

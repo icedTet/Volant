@@ -1,9 +1,9 @@
 import { VRM, VRMSchema } from "@pixiv/three-vrm";
 import React from "react";
 import { useEffect, useState } from "react";
-import { PerspectiveCamera, Vector3 } from "three";
+import { AnimationClip, LoopRepeat, PerspectiveCamera, Vector3 } from "three";
 import { VRMFile } from "../../utils/classes/VRMLoader";
-
+import { useAnimations } from "@react-three/drei";
 export const VRMFileRenderer = (props: {
   model: VRMFile;
   camera: React.MutableRefObject<PerspectiveCamera | null>;
@@ -23,7 +23,12 @@ export const VRMFileRenderer = (props: {
       ?.getBoneNode(VRMSchema.HumanoidBoneName.Head)
       ?.getWorldPosition(newVector);
     console.log("newVector", newVector);
-    if (newVector) camera?.current?.position.add(new Vector3(0, newVector.y, 0));
+    if (newVector)
+      camera?.current?.position.set(
+        0,
+        newVector.y,
+        newVector.z + (newVector.y * 0.7) ** 0.8
+      );
   }, [modelData]);
   if (!modelData) return null;
 

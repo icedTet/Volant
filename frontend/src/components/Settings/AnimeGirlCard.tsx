@@ -1,26 +1,27 @@
 import { Canvas } from "@react-three/fiber";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ModelData, VRMFile, VRMLoader } from "../../utils/classes/VRMLoader";
 import { VRMFileRenderer } from "./VRMFileRenderer";
 import { PerspectiveCamera as PCamera } from "@react-three/drei";
-import { PerspectiveCamera } from "three";
+import { AnimationClip, PerspectiveCamera } from "three";
+import { loadMixamoAnimation } from "../../utils/loadFBX";
 export const AnimeGirlCard = (props: {
   data: ModelData;
   model: VRMFile;
   onClick: (model: VRMFile) => void;
 }) => {
-  const { data } = props;
+  const { data, model } = props;
   const camera = useRef<PerspectiveCamera>(null);
   return (
     <div
-      className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden`}
+      className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden hover:bg-gray-50 group cursor-pointer hover:shadow-lg transition-all hover:ring-2 duration-300`}
     >
       <div className={`w-full h-full`}>
         <Canvas
-          frameloop="demand"
+          frameloop="always"
           className={`w-full h-full absolute top-0 left-0`}
         >
-          <VRMFileRenderer model={props.model} camera={camera} />
+          <VRMFileRenderer model={model} camera={camera} />
           <ambientLight intensity={3} />
           <PCamera
             makeDefault
@@ -33,7 +34,7 @@ export const AnimeGirlCard = (props: {
         </Canvas>
       </div>
       <div
-        className={`absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-gray-200/50 to-gray-200`}
+        className={`absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-gray-200/50 to-gray-200 group-hover:opacity-80 transition-all duration-300`}
       />
       <div className={`absolute bottom-0 left-0 w-full h-fit p-4`}>
         <span className={`text-lg font-bold text-gray-600`}>{data.name}</span>
