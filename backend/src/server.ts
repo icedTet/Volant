@@ -46,8 +46,16 @@ export class Server {
         "re",
         "-i",
         "-",
-        `rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
+        "out.mp4",
+        //`rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
       ]);
+
+      ffmpeg.stdout.on("data", (data) => {
+        console.log(`ffmpeg stdout: ${data}`);
+      });
+      ffmpeg.stderr.on("data", (data) => {
+        console.log(`ffmpeg stderr: ${data}`);
+      });
 
       socket.on("message", (msg) => {
         console.log("receiving data " + msg);
