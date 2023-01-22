@@ -64,9 +64,9 @@ export class Server {
         "+faststart",
         "-c:a",
         "aac",
-        "-f",
-        "lavfi",
         "anullsrc=r=48000:cl=stereo",
+        "-f",
+        "flv",
         "rtmp://a.rtmp.youtube.com/live2/***REMOVED***",
       ]);
 
