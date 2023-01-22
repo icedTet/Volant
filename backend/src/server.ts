@@ -1,10 +1,9 @@
 import express, { Application } from "express";
 import socketIO, { Server as SocketIOServer } from "socket.io";
-import { createServer, Server as HTTPServer } from "http";
 import cors from "cors";
+import { spawn } from "node:child_process";
 
 export class Server {
-  private httpServer: HTTPServer;
   private app: Application;
   private io: SocketIOServer;
 
@@ -15,8 +14,12 @@ export class Server {
   constructor() {
     this.app = express();
     this.app.use(cors());
-    this.httpServer = createServer(this.app);
-    this.io = new SocketIOServer(this.httpServer);
+    this.io = new SocketIOServer(this.app.listen(this.DEFAULT_PORT), {
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+      },
+    });
 
     this.setupSocketHandlers();
   }
@@ -32,12 +35,21 @@ export class Server {
       if (!existingSocket) {
         this.activeSockets.push(socket.id);
       }
-    });
-  }
 
-  public listen(callback: (port: number) => void): void {
-    this.httpServer.listen(this.DEFAULT_PORT, () =>
-      callback(this.DEFAULT_PORT)
-    );
+      const ffmpeg = spawn("ffmpeg", [
+        `rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
+      ]);
+
+      this.io.on("message", (msg) => {
+        if (Buffer.isBuffer(msg)) {
+          ffmpeg.stdin.write(msg);
+        }
+      });
+
+      // If the WebSocket connection goes away, clean up ffmpeg
+      this.io.on("close", (e) => {
+        ffmpeg.kill("SIGINT");
+      });
+    });
   }
 }
