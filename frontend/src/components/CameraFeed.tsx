@@ -72,8 +72,8 @@ export const CameraFeed = () => {
         const perf = performance.now();
         FaceAI.getInstance().send({ image: videoElement });
       },
-      width: 640, //1280,
-      height: 480 // 960,
+      width: 1280, //1280,
+      height: 960 // 960,
     });
     cam.start();
     FaceAI.getInstance().on("results", drawResults);

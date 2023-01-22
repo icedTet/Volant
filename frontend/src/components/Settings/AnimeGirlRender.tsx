@@ -44,7 +44,7 @@ export const AnimeGirlRenderer = (props: { model?: VRM | null }) => {
       eventSource={globalThis?.document?.getElementById("root")!}
       eventPrefix="client"
       shadows={"soft"}
-      className={`bg-gray-500 w-full h-full absolute top-0 left-0`}
+      className={`bg-cyan-500 w-full h-full absolute top-0 left-0`}
     >
       {lightTarget.current && (
         <directionalLight

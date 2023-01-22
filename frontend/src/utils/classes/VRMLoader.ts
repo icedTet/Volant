@@ -87,6 +87,7 @@ export class VRMLoader extends EventEmitter {
     console.log("addModelData");
     const { id } = modelData;
     this.modelDataMap.set(id, modelData);
+
     await localforage.setItem(`models.${id}`, blob);
     await localforage.setItem("models", this.modelDataMap);
     this.emit("modelDataAdded", modelData);
@@ -189,14 +190,13 @@ export class VRMFile extends EventEmitter {
     this.emit("error", error);
   }
 }
-VRMLoader.getInstance().setPrimaryModel("rin");
+// VRMLoader.getInstance().setPrimaryModel("rin");
 modelDefaultData.map((modelDefaultData) => {
   const { name, id, url } = modelDefaultData;
   VRMLoader.getInstance().load(url, name, id);
-
   VRMLoader.getInstance().modelDataMap.set(id, modelDefaultData);
   VRMLoader.getInstance().emit("modelDataAdded", modelDefaultData);
 });
-
+VRMLoader.getInstance().setPrimaryModel("rin");
 VRMLoader.getInstance().ready = true;
 VRMLoader.getInstance().emit("ready");

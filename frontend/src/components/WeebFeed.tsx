@@ -59,9 +59,9 @@ export const WeebFeed = () => {
           zoom={1}
           ref={camera}
         ></PCamera>
-        <ambientLight intensity={4} />
-        <OrbitControls camera={camera.current} enableDamping={false} />
-        {model && <ModelRenderer model={model} />}
+        <ambientLight intensity={1} />
+        {/* <OrbitControls camera={camera.current} enableDamping={false} /> */}
+        {model && <ModelRenderer model={model} camera={camera} />}
       </Canvas>
     </div>
   );

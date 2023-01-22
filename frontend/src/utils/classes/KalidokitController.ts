@@ -65,7 +65,7 @@ export class KalidokitController {
       ]
     );
     if (!Part) return void null;
-
+ 
     let euler = new THREE.Euler(x * dampener, y * dampener, z * dampener);
     let quaternion = new THREE.Quaternion().setFromEuler(euler);
     Part.quaternion.slerp(quaternion, lerpAmt);
@@ -195,7 +195,7 @@ export class KalidokitController {
         "LeftLowerLeg",
       ] as const) {
         const { x, y, z } = riggedPose[l];
-        this.rigRotation(l, x, y, z, 1, 0.3);
+        this.rigRotation(l, x, y, z,);
       }
 
       if (leftHandLandmarks) {

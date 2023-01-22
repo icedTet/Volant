@@ -43,6 +43,6 @@ export const Modal = (props: {
         </div>
       </Transition>
     </>,
-    document.getElementById('themeContainer')!
+    document.getElementById('top')!
   )
 }

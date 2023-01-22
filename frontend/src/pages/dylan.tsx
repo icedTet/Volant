@@ -8,6 +8,7 @@ import {
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { FaceAI } from "../utils/classes/FaceAI";
 import { SocketConnection } from "../utils/classes/SocketStreamer";
+import { Sidebar } from "../components/Sidebar";
 
 export const dylan = () => {
   const input_video = useRef<any>();
@@ -110,6 +111,7 @@ export const dylan = () => {
 
   return (
     <div className={`w-full h-full`}>
+      <Sidebar/>
       <div className={`w-96 h-72 absolute bottom-0 right-0 z-10`}>
         <div className={`-scale-x-100 w-96 h-72 relative`}>
           <video

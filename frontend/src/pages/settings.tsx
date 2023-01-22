@@ -30,12 +30,12 @@ export const Settings = () => {
   const modelMap = useAllModelData();
   return (
     <div className={`grid grid-cols-10 gap-2 w-full min-h-screen`}>
-      <div className={`col-span-4 bg-gray-200 p-16 max-h-screen overflow-auto`}>
+      <div className={`col-span-5 bg-gray-200 p-16 max-h-screen overflow-auto`}>
         <div className="flex flex-col gap-12">
           <h1
             className={`text-6xl font-extrabold text-indigo-600 font-poppins`}
           >
-            Settings
+            VTuber Online!
           </h1>
           <div className="flex flex-col gap-4">
             <h2
@@ -43,22 +43,6 @@ export const Settings = () => {
             >
               Stream Connection Settings
             </h2>
-            <div className={`flex flex-col gap-4 w-full`}>
-              <input
-                type={"text"}
-                placeholder="Streaming URL (rtmp://example.com/live2)"
-                className="basicinput"
-                value={streamURL}
-                onChange={(e) => setStreamURL(e.target.value)}
-              />
-              <input
-                type={"text"}
-                placeholder="Enter your stream key (xxxx-xxxx-xxxx-xxxx-xxxx)"
-                className="basicinput"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-              />
-            </div>
             <div className={`flex flex-col gap-4 w-full`}>
               <input
                 type={"text"}
@@ -125,12 +109,12 @@ export const Settings = () => {
                   }}
                 />
               ))}
-              <AnimeGirlCreateYourOwn />
+              {/* <AnimeGirlCreateYourOwn /> */}
             </div>
           </div>
         </div>
       </div>
-      <div className={`col-span-6`}>
+      <div className={`col-span-5`}>
         <AnimeGirlRenderer model={model} />
       </div>
     </div>
