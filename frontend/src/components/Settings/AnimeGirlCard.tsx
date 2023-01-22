@@ -11,12 +11,17 @@ export const AnimeGirlCard = (props: {
   model: VRMFile;
   onClick: (model: VRMFile) => void;
 }) => {
-  const { data, model } = props;
+  const { data, model, onClick } = props;
   const pmodel = usePrimaryModel();
   const camera = useRef<PerspectiveCamera>(null);
   return (
     <div
-      className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden hover:bg-gray-50 group cursor-pointer hover:shadow-lg transition-all ${pmodel === data.id ? `ring-2 ring-purple-500 hover:ring-4`: `hover:ring-2`} duration-300`}
+      className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden hover:bg-gray-50 group cursor-pointer hover:shadow-lg transition-all ${
+        pmodel === data.id
+          ? `ring-2 ring-purple-500 hover:ring-4`
+          : `hover:ring-2`
+      } duration-300`}
+      onClick={() => onClick(model)}
     >
       <div className={`w-full h-full`}>
         <Canvas
@@ -38,8 +43,9 @@ export const AnimeGirlCard = (props: {
       <div
         className={`absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-b from-transparent via-gray-200/50 to-gray-200 group-hover:opacity-80 transition-all duration-300`}
       />
-      <div className={`absolute bottom-0 left-0 w-full h-fit p-4`}>
-        <span className={`text-lg font-bold text-gray-600`}>{data.name}</span>
+      <div className={`absolute bottom-0 left-0 w-full h-fit p-4 flex flex-col gap-2`}>
+        <span className={`text-lg font-bold text-gray-600 font-wsans`}>{data.name}</span>
+          <span className={`text-sm text-purple-500 ${pmodel === data.id ? `opacity-100`: `opacity-0`} transition-all duration-300 font-bold`}>Selected</span>
       </div>
     </div>
   );

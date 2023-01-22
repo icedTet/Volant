@@ -104,11 +104,12 @@ export class VRMLoader extends EventEmitter {
     return this.modelMap.get(this.selectedModel!);
   }
   async setPrimaryModel(id: string) {
-    console.log("setPrimaryModel");
-    if (this.modelDataMap.has(id)) return false;
+    console.log("setPrimaryModel", id, this.modelDataMap.has(id));
+    if (!this.modelDataMap.has(id)) return false;
     this.selectedModel = id;
     localforage.setItem("selectedModel", id);
     this.emit("primaryModelChanged", id);
+    console.log("setPrimaryModelEmit", id);
   }
   async deleteModel(id: string) {
     console.log("deleteModel");
@@ -127,17 +128,17 @@ export class VRMFile extends EventEmitter {
   url: string;
   name: string;
   id: string;
-
+  loader: GLTFLoader;
   constructor(url: string, name: string, id: string) {
     super();
     this.url = url;
     this.name = name;
     this.id = id;
+    this.loader = new GLTFLoader();
     this.loadVRM();
   }
   async loadVRM() {
-    const loader = new GLTFLoader();
-    const gltf = await loader.loadAsync(this.url);
+    const gltf = await this.loader.loadAsync(this.url);
     const vrm = await VRM.from(gltf);
     VRMUtils.removeUnnecessaryJoints(gltf.scene);
     gltf.scene.rotation.y = Math.PI;
@@ -166,7 +167,12 @@ export class VRMFile extends EventEmitter {
         await new Promise((resolve) => setTimeout(resolve, 10));
       }
     }
-    return this.model;
+    // clone VRM
+    const gltf = await this.loader.loadAsync(this.url);
+    const vrm = await VRM.from(this.gltf!);
+    VRMUtils.removeUnnecessaryJoints(gltf.scene);
+    gltf.scene.rotation.y = Math.PI;
+    return vrm;
   }
   async getGLTF() {
     if (!this.gltf) {

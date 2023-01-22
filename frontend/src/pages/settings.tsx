@@ -7,6 +7,7 @@ import Button, {
   ButtonSize,
 } from "../components/Button";
 import { AnimeGirlCard } from "../components/Settings/AnimeGirlCard";
+import { AnimeGirlCreateYourOwn } from "../components/Settings/AnimeGirlCreateYourOwn";
 import { AnimeGirlRenderer } from "../components/Settings/AnimeGirlRender";
 import { VRMFile, VRMLoader } from "../utils/classes/VRMLoader";
 import { useAllModelData } from "../utils/hooks/useAllModelData";
@@ -29,7 +30,7 @@ export const Settings = () => {
   const modelMap = useAllModelData();
   return (
     <div className={`grid grid-cols-10 gap-2 w-full min-h-screen`}>
-      <div className={`col-span-5 bg-gray-200 p-16 max-h-screen overflow-auto`}>
+      <div className={`col-span-4 bg-gray-200 p-16 max-h-screen overflow-auto`}>
         <div className="flex flex-col gap-12">
           <h1
             className={`text-6xl font-extrabold text-indigo-600 font-poppins`}
@@ -42,7 +43,7 @@ export const Settings = () => {
             >
               Stream Connection Settings
             </h2>
-            <div className={`flex flex-col gap-4 w-[65ch]`}>
+            <div className={`flex flex-col gap-4 w-full`}>
               <input
                 type={"text"}
                 placeholder="Streaming URL (rtmp://example.com/live2)"
@@ -58,7 +59,7 @@ export const Settings = () => {
                 onChange={(e) => setKey(e.target.value)}
               />
             </div>
-            <div className={`flex flex-col gap-4 w-[65ch]`}>
+            <div className={`flex flex-col gap-4 w-full`}>
               <input
                 type={"text"}
                 placeholder="Streaming URL (rtmp://example.com/live2)"
@@ -76,7 +77,7 @@ export const Settings = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 w-[65ch]">
+          <div className="flex flex-col gap-4 w-full">
             <h3
               className={`text-sm font-extrabold text-gray-900/20 font-poppins uppercase`}
             >
@@ -119,14 +120,17 @@ export const Settings = () => {
                   key={`anime-card-${key}`}
                   model={VRMLoader.getInstance().modelMap.get(key)!}
                   data={VRMLoader.getInstance().modelDataMap.get(key)!}
-                  onClick={() => {}}
+                  onClick={(model) => {
+                    VRMLoader.getInstance().setPrimaryModel(model.id);
+                  }}
                 />
               ))}
+              <AnimeGirlCreateYourOwn />
             </div>
           </div>
         </div>
       </div>
-      <div className={`col-span-5`}>
+      <div className={`col-span-6`}>
         <AnimeGirlRenderer model={model} />
       </div>
     </div>
