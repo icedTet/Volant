@@ -8,9 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
+    "@mediapipe/holistic": "^0.5.1635989137",
+    "localforage": "^1.10.0",
     "next": "13.1.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "socket.io-client": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
