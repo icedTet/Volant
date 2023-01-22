@@ -62,8 +62,7 @@ export class Server {
         "aac",
         "-movflags",
         "+faststart",
-        "output.mp4",
-        //`rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
+        "rtmp://a.rtmp.youtube.com/live2/***REMOVED***",
       ]);
 
       ffmpeg.stderr.on("data", (data) => {
