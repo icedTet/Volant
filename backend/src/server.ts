@@ -43,11 +43,26 @@ export class Server {
       }
 
       const ffmpeg = spawn("ffmpeg", [
-        "-i",
-        "pipe:0",
+        "-re",
+        "-thread_queue_size",
+        "4096",
         "-f",
         "webm",
-        "out.mp4",
+        "-r",
+        "25",
+        "-i",
+        "pipe:0",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "veryFast",
+        "-pix_fmt",
+        "yuv420p",
+        "-acodec",
+        "aac",
+        "-movflags",
+        "+faststart",
+        "output.mp4",
         //`rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
       ]);
 
