@@ -56,7 +56,6 @@ export class Server {
       });
 
       socket.on("message", (msg) => {
-        console.log("receiving data " + msg);
         if (Buffer.isBuffer(msg)) {
           ffmpeg.stdin.write(msg);
         }
@@ -64,7 +63,8 @@ export class Server {
 
       // If the WebSocket connection goes away, clean up ffmpeg
       this.io.on("close", (e) => {
-        ffmpeg.kill("SIGINT");
+        ffmpeg.stdin.end();
+        //ffmpeg.kill("SIGINT");
       });
     });
   }
