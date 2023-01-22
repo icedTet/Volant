@@ -18,10 +18,12 @@ export class FaceAI extends EventEmitter {
   readying?: boolean;
 
   private constructor() {
+    console.log("FaceAI constructor");
     super();
     this.holistic = new Holistic({
       locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/${file}`;
+        console.log(`${file}`);
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
       },
     });
     this.holistic.setOptions({
@@ -36,7 +38,6 @@ export class FaceAI extends EventEmitter {
   }
 
   async send(data: InputMap) {
-    console.log("send");
     return this.holistic.send(data);
   }
 

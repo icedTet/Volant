@@ -7,14 +7,16 @@ import {
 } from "@mediapipe/holistic";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { FaceAI } from "../utils/classes/FaceAI";
+import { SocketConnection } from "../utils/classes/SocketStreamer";
 
 export const CameraFeed = () => {
   const input_video = useRef<HTMLVideoElement>();
   const guides = useRef<HTMLCanvasElement>();
-
+  const random = useRef(0);
   useEffect(() => {
     const videoElement = input_video.current;
-
+    let rando = ~~(Math.random() * 1000000000);
+    random.current = parseInt(`${rando}`);
     const drawResults = (results) => {
       const guideCanvas = guides.current;
 
@@ -67,7 +69,9 @@ export const CameraFeed = () => {
 
     let cam = new Camera(videoElement, {
       onFrame: async () => {
-        await FaceAI.getInstance().send({ image: videoElement });
+        rando === random.current &&
+          (await FaceAI.getInstance().send({ image: videoElement }));
+        // console.log("send3");
       },
       width: 640,
       height: 480,
@@ -77,20 +81,49 @@ export const CameraFeed = () => {
 
     return () => {
       cam.stop();
+      // cam
       FaceAI.getInstance().off("results", drawResults);
     };
   }, []);
 
+  // const dylanSocketTest = () => {
+  //   const server = new SocketConnection();
+  //   console.log("create socket connection");
+
+  //   const mediaStream = input_video.current.captureStream(30);
+  //   const mediaRecorder = new MediaRecorder(mediaStream, {
+  //     mimeType: "video/webm",
+  //     videoBitsPerSecond: 3000000,
+  //   });
+
+  //   console.log(mediaStream);
+
+  //   mediaRecorder.ondataavailable = (e: BlobEvent) => {
+  //     console.log("data avaliable" + e.data);
+  //     server.getSocket().emit("message", e.data);
+  //   };
+
+  //   console.log(mediaRecorder);
+  // };
+
   return (
-    <div className={`w-96 h-72 relative -scale-x-100`}>
-      <video
-        ref={input_video}
-        autoPlay
-        muted
-        playsInline
-        className={`w-full h-full absolute top-0 left-0`}
-      />
-      <canvas ref={guides} className={`w-full h-full absolute top-0 left-0`} />
+    // <div className={`w-full h-full`}>
+    <div className={`w-96 h-72 absolute bottom-0 right-0 z-10`}>
+      <div className={`-scale-x-100 w-96 h-72 relative`}>
+        <video
+          ref={input_video}
+          autoPlay
+          muted
+          playsInline
+          className={`w-full h-full absolute top-0 left-0`}
+        ></video>
+        <canvas
+          ref={guides}
+          className={`w-full h-full absolute top-0 left-0`}
+        />
+      </div>
     </div>
+    // {/* <button onClick={dylanSocketTest}>socket</button> */}
+    // </div>
   );
 };

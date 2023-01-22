@@ -4,7 +4,7 @@ export class SocketConnection {
   private socket: SocketIOClient;
 
   constructor() {
-    this.socket = io("http://localhost:443");
+    this.socket = io("http://***REMOVED***:443", {transports: ["websocket"]});
 
     this.socket.emit("test");
     this.socket.on("test-cb", () => {
@@ -12,11 +12,9 @@ export class SocketConnection {
     });
   }
 
-  private handleConnected(): void {
-    console.log("connected");
-  }
-
   public getSocket() {
     return this.socket;
   }
 }
+
+export default SocketConnection

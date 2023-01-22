@@ -8,13 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@gltf-transform/core": "^2.5.1",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@mediapipe/camera_utils": "^0.3.1640029074",
     "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/holistic": "^0.5.1635989137",
     "@pixiv/three-vrm": "^1.0.6",
+    "@pixiv/types-vrm-0.0": "^1.0.0",
+    "@pixiv/types-vrmc-vrm-1.0": "^1.0.0",
+    "@react-three/drei": "^9.54.0",
     "@react-three/fiber": "^8.10.1",
+    "kalidokit": "icedTet/kalidokit",
     "localforage": "^1.10.0",
     "ls": "^0.2.1",
     "media-stream-merger": "^1.0.0",
