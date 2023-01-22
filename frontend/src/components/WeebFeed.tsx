@@ -54,7 +54,7 @@ export const WeebFeed = (props: { large?: boolean }) => {
         ref={canvasRef}
       >
         <PCamera
-          position={new Vector3(0, 2, 0)}
+          // position={new Vector3(0, 2, 0)}
           makeDefault
           zoom={1}
           ref={camera}
