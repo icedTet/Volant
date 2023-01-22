@@ -14,7 +14,7 @@ export class KalidokitController {
   private oldLookTarget = new THREE.Euler();
 
   public vrm?: VRM | null | undefined;
-  constructor(vrm: VRM,) {
+  constructor(vrm: VRM) {
     this.vrm = vrm;
     FaceAI.getInstance().on("results", this.animateVRM.bind(this));
     console.log("vrm added ", vrm);
@@ -22,7 +22,6 @@ export class KalidokitController {
   dispose() {
     FaceAI.getInstance().off("results", this.animateVRM.bind(this));
     console.log("vrm removed ", this.vrm);
-    
   }
   // public update = (delta: number) => {
   //   this.vrm?.update(delta);
@@ -124,7 +123,7 @@ export class KalidokitController {
         lerp(
           riggedFace.mouth.shape.I,
           Blendshape.getValue(PresetName[letter]) as number,
-          0.5
+          .5
         )
       );
 

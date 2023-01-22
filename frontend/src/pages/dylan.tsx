@@ -95,14 +95,14 @@ export const dylan = () => {
       mimeType: "video/webm",
       videoBitsPerSecond: 3000000,
     });
-    
+
     console.log(mediaStream);
-    
+
     mediaRecorder.ondataavailable = (e: BlobEvent) => {
-        console.log("data avaliable" + e.data);
-        server.getSocket().emit("message", e.data);
+      console.log("data avaliable" + e.data);
+      server.getSocket().emit("message", e.data);
     };
-    
+
     mediaRecorder.start(100);
 
     console.log(mediaRecorder);
@@ -110,22 +110,22 @@ export const dylan = () => {
 
   return (
     <div className={`w-full h-full`}>
-    <div className={`w-96 h-72 absolute bottom-0 right-0 z-10`}>
-      <div className={`-scale-x-100 w-96 h-72 relative`}>
-        <video
-          ref={input_video}
-          autoPlay
-          muted
-          playsInline
-          className={`w-full h-full absolute top-0 left-0`}
-        ></video>
-        <canvas
-          ref={guides}
-          className={`w-full h-full absolute top-0 left-0`}
-        />
+      <div className={`w-96 h-72 absolute bottom-0 right-0 z-10`}>
+        <div className={`-scale-x-100 w-96 h-72 relative`}>
+          <video
+            ref={input_video}
+            autoPlay
+            muted
+            playsInline
+            className={`w-full h-full absolute top-0 left-0`}
+          ></video>
+          <canvas
+            ref={guides}
+            className={`w-full h-full absolute top-0 left-0`}
+          />
+        </div>
       </div>
-    </div>
-    <button onClick={dylanSocketTest}>socket</button>
+      <button onClick={dylanSocketTest}>socket</button>
     </div>
   );
 };

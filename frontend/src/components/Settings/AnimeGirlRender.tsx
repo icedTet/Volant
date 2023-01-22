@@ -3,13 +3,7 @@ import { Canvas } from "@react-three/fiber";
 
 import React, { useEffect, useMemo, useState } from "react";
 import { AnimationClip, Color, Group, Mesh, Vector3 } from "three";
-import {
-  PerspectiveCamera,
-  Cylinder,
-  SpotLight,
-  OrbitControls,
-  useAnimations,
-} from "@react-three/drei";
+import { PerspectiveCamera, Cylinder, OrbitControls } from "@react-three/drei";
 import { loadMixamoAnimation } from "../../utils/loadFBX";
 import { AnimeGirlObject } from "./AnimeGirlObject";
 

@@ -13,7 +13,7 @@ export const AnimeGirlObject = (props: {
   );
   useEffect(() => {
     actions?.vrmAnimation?.reset();
-    actions?.vrmAnimation?.setLoop(LoopRepeat,999999)
+    actions?.vrmAnimation?.setLoop(LoopRepeat, 999999);
     actions?.vrmAnimation?.play();
     console.log("PLAYING", actions?.vrmAnimation);
   }, []);

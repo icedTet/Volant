@@ -1,11 +1,8 @@
 import { VRM } from "@pixiv/three-vrm";
 import { useFrame, useThree } from "@react-three/fiber";
-import { MutableRefObject, useMemo, useRef } from "react";
-import { Euler, Scene } from "three";
 import { useEffect } from "react";
 import React from "react";
 import { KalidokitController } from "../../utils/classes/KalidokitController";
-import { Box } from "@react-three/drei";
 export const ModelRenderer = (props: { model: VRM }) => {
   const { model } = props;
   console.log("ModelRenderer", model);

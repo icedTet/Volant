@@ -27,7 +27,7 @@ export class FaceAI extends EventEmitter {
       },
     });
     this.holistic.setOptions({
-      modelComplexity: 1,
+      modelComplexity: 0,
       smoothLandmarks: true,
       minDetectionConfidence: 0.7,
       minTrackingConfidence: 0.7,

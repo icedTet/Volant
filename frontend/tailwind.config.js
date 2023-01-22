@@ -1,11 +1,10 @@
 const colors = require("tailwindcss/colors");
 module.exports = {
-
   content: [
-    './src/components/**/*.{ts,tsx,js,jsx}', 
-    'src/components/**/*.{ts,tsx,js,jsx}',
-    './src/pages/**/*.{ts,tsx,js,jsx}',
-    'src/pages/**/*.{ts,tsx,js,jsx}'
+    "./src/components/**/*.{ts,tsx,js,jsx}",
+    "src/components/**/*.{ts,tsx,js,jsx}",
+    "./src/pages/**/*.{ts,tsx,js,jsx}",
+    "src/pages/**/*.{ts,tsx,js,jsx}",
   ],
   darkMode: "class",
   theme: {
@@ -64,7 +63,7 @@ module.exports = {
         },
       },
       colors: {
-        gray:{
+        gray: {
           ...colors.slate,
           150: `rgb(233, 238, 244)`,
           250: `rgb(214, 222, 232)`,
@@ -75,8 +74,7 @@ module.exports = {
           750: `rgb(40, 53, 72)`,
           850: `rgb(22, 32, 50)`,
           950: `rgb(7, 11, 21)`,
-
-        }
+        },
       },
     },
     screens: {
@@ -113,7 +111,7 @@ module.exports = {
   },
   variants: {},
   plugins: [],
-}
+};
 
 /*
 text-slate-50	color: rgb(248 250 252);

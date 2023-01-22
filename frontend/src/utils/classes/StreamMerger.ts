@@ -30,10 +30,12 @@ export class StreamMerger extends EventEmitter {
   setVideoStream(stream: MediaStream) {
     this.videoStream = stream;
     this.emit("videoStream", stream);
+    console.log(stream);
   }
   setScreenStream(stream: MediaStream) {
     this.screenStream = stream;
     this.emit("screenStream", stream);
+    console.log(stream);
   }
   setAudioStream(stream: MediaStream) {
     this.audioStream = stream;

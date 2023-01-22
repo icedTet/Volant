@@ -24,7 +24,7 @@ export function loadMixamoAnimation(url: string, vrm: VRM) {
     // Adjust with reference to hips height.
     const motionHipsHeight = asset.getObjectByName("mixamorigHips")!.position.y;
     const vrmHipsY = vrm.humanoid
-      ?.getNormalizedBoneNode("hips")
+      ?.getBoneNode("hips")
       ?.getWorldPosition(_vec3).y!;
     const vrmRootY = vrm.scene.getWorldPosition(_vec3).y;
     const vrmHipsHeight = Math.abs(vrmHipsY - vrmRootY);
@@ -36,7 +36,7 @@ export function loadMixamoAnimation(url: string, vrm: VRM) {
       const mixamoRigName = trackSplitted[0];
       const vrmBoneName = mixamoVRMRigMap[mixamoRigName];
       const vrmNodeName =
-        vrm.humanoid?.getNormalizedBoneNode(vrmBoneName)?.name;
+        vrm.humanoid?.getBoneNode(vrmBoneName)?.name;
       const mixamoRigNode = asset.getObjectByName(mixamoRigName);
 
       if (vrmNodeName != null) {

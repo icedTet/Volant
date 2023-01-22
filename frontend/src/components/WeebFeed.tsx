@@ -1,33 +1,16 @@
-import { lerp, clamp } from "@mediapipe/drawing_utils";
-import { VRMUtils, VRM } from "@pixiv/three-vrm";
-import THREE, {
-  DirectionalLight,
-  Euler,
-  PerspectiveCamera,
-  Quaternion,
-  Scene,
-  Vector3,
-  WebGLRenderer,
-} from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { HumanoidBoneName } from "@pixiv/types-vrm-0.0";
+import { PerspectiveCamera, Vector3 } from "three";
 import { useSelectedModel } from "../utils/hooks/useVRMFile";
-import * as Kalidokit from "kalidokit";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera as PCamera } from "@react-three/drei";
-import { useEffect, useMemo, useRef } from "react";
-import { ModelRig } from "../utils/rigBody";
-import { CameraFeed } from "./CameraFeed";
+import { useEffect, useRef } from "react";
 import { ModelRenderer } from "./Weeb/ModelRender";
 import React from "react";
+import { StreamMerger } from "../utils/classes/StreamMerger";
 
 export const WeebFeed = () => {
-  const remap = Kalidokit.Utils.remap;
-  const clamp = Kalidokit.Utils.clamp;
-  const lerp = Kalidokit.Vector.lerp;
-
   const model = useSelectedModel();
   const camera = useRef<PerspectiveCamera>();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   // useeff
   // const orbitCamera = new PerspectiveCamera(
   //   35,
@@ -55,7 +38,7 @@ export const WeebFeed = () => {
         model
       );
     });
-    return null; 
+    return null;
   };
   useEffect(() => {
     if (!camera.current) return;
@@ -66,6 +49,12 @@ export const WeebFeed = () => {
     camera.current.lookAt(0, 1.5, 0);
   }, [camera]);
 
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const stream = canvasRef.current.captureStream(60);
+    StreamMerger.getInstance().setVideoStream(stream);
+  }, []);
+
   return (
     <div className={`w-full h-full relative`}>
       {/* <CameraFeed /> */}
@@ -74,9 +63,11 @@ export const WeebFeed = () => {
         eventPrefix="client"
         shadows={true}
         className={`bg-gray-500 w-full h-full absolute top-0 left-0`}
+        frameloop="always"
+        ref={canvasRef}
       >
         <PCamera
-          position={new Vector3(-1, 0, 4)}
+          position={new Vector3(0, 2, 3)}
           makeDefault
           zoom={1}
           ref={camera}

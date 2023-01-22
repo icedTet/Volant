@@ -7,7 +7,6 @@ import {
 } from "@mediapipe/holistic";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { FaceAI } from "../utils/classes/FaceAI";
-import { SocketConnection } from "../utils/classes/SocketStreamer";
 
 export const CameraFeed = () => {
   const input_video = useRef<HTMLVideoElement>(null);

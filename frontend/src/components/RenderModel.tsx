@@ -3,10 +3,11 @@ import { Canvas } from "@react-three/fiber";
 import React, { useRef } from "react";
 import * as THREE from "three";
 import { PerspectiveCamera as PCamera, OrbitControls } from "@react-three/drei";
+import { Vector3 } from "three";
 
 export const RenderModel = (props: { model: VRM }) => {
   const { model } = props;
-
+  const camera = useRef<THREE.PerspectiveCamera>();
   return (
     <Canvas
       // eventSource={globalThis?.document?.getElementById("root")!}
@@ -16,7 +17,7 @@ export const RenderModel = (props: { model: VRM }) => {
       frameloop="demand"
     >
       <PCamera
-        // position={new Vector3(-1, 0, 4)}
+        position={new Vector3(-1, 0, 4)}
         makeDefault
         zoom={1}
         ref={camera}
