@@ -1,8 +1,7 @@
 import { Utils, Vector, Face, Pose, Hand, XYZ } from "kalidokit";
 import * as THREE from "three";
-import { VRM, VRMSchema, VRMUtils } from "@pixiv/three-vrm";
+import { VRM, VRMSchema } from "@pixiv/three-vrm";
 import { FaceAI } from "./FaceAI";
-import { RootState } from "@react-three/fiber";
 import { Scene } from "three";
 
 const { clamp } = Utils;
@@ -117,15 +116,12 @@ export class KalidokitController {
     riggedFace.eye = Face.stabilizeBlink(riggedFace.eye, riggedFace.head.y);
     Blendshape.setValue(PresetName.Blink, riggedFace.eye.l);
 
-    for (const letter of ["I", "E", "A", "O", "U"] as const)
-      Blendshape.setValue(
-        PresetName[letter],
-        lerp(
-          riggedFace.mouth.shape.I,
-          Blendshape.getValue(PresetName[letter]) as number,
-          .5
-        )
-      );
+    // Interpolate and set mouth blendshapes
+    Blendshape.setValue(PresetName.I, lerp(riggedFace.mouth.shape.I,Blendshape.getValue(PresetName.I)!, .5));
+    Blendshape.setValue(PresetName.A, lerp(riggedFace.mouth.shape.A,Blendshape.getValue(PresetName.A)!, .5));
+    Blendshape.setValue(PresetName.E, lerp(riggedFace.mouth.shape.E,Blendshape.getValue(PresetName.E)!, .5));
+    Blendshape.setValue(PresetName.O, lerp(riggedFace.mouth.shape.O,Blendshape.getValue(PresetName.O)!, .5));
+    Blendshape.setValue(PresetName.U, lerp(riggedFace.mouth.shape.U,Blendshape.getValue(PresetName.U)!, .5));
 
     const lookTarget = new THREE.Euler(
       lerp(this.oldLookTarget.x, riggedFace.pupil.y, 0.4),

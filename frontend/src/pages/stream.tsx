@@ -2,6 +2,7 @@ import React from "react";
 import { CameraFeed } from "../components/CameraFeed";
 import { ScreenFeed } from "../components/ScreenFeed";
 import { WeebFeed } from "../components/WeebFeed";
+import { MicrophoneStreamer } from "../utils/classes/AudioManager";
 import SocketConnection from "../utils/classes/SocketStreamer";
 import { StreamMerger } from "../utils/classes/StreamMerger";
 
@@ -23,13 +24,21 @@ export const StreamPage = () => {
       </div>
       <div className="absolute bottom-4 left-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden">
         <button
-          className="w-full h-full bg-gray-200"
+          className="w-full bg-gray-200"
           onClick={() => {
             StreamMerger.getInstance().renderStream();
             SocketConnection.getInstance().startStream();
           }}
         >
           Chat
+        </button>
+        <button
+          className="w-full bg-gray-200"
+          onClick={() => {
+            MicrophoneStreamer.getInstance().getMicrophoneAccess();
+          }}
+        >
+          MicOn
         </button>
       </div>
     </div>

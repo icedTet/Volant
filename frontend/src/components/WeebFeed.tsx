@@ -1,6 +1,6 @@
 import { PerspectiveCamera, Vector3 } from "three";
 import { useSelectedModel } from "../utils/hooks/useVRMFile";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera as PCamera } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { ModelRenderer } from "./Weeb/ModelRender";
@@ -28,18 +28,6 @@ export const WeebFeed = () => {
   // let oldLookAt = new Euler();
 
   /* VRM Character Animator */
-  const CLog = () => {
-    useFrame(() => {
-      console.log(
-        "frame",
-        camera.current?.position,
-        camera.current?.zoom,
-        camera.current?.rotation,
-        model
-      );
-    });
-    return null;
-  };
   useEffect(() => {
     if (!camera.current) return;
     console.log("cam");
@@ -61,7 +49,6 @@ export const WeebFeed = () => {
       <Canvas
         eventSource={globalThis?.document?.getElementById("root")!}
         eventPrefix="client"
-        shadows={true}
         className={`bg-gray-500 w-full h-full absolute top-0 left-0`}
         frameloop="always"
         ref={canvasRef}
@@ -72,8 +59,7 @@ export const WeebFeed = () => {
           zoom={1}
           ref={camera}
         ></PCamera>
-        <CLog />
-        <ambientLight intensity={2} /> {/* fix lighting later */}
+        <ambientLight intensity={4} />
         <OrbitControls camera={camera.current} />
         {model && <ModelRenderer model={model} />}
       </Canvas>

@@ -68,12 +68,14 @@ export const CameraFeed = () => {
 
     let cam = new Camera(videoElement, {
       onFrame: async () => {
-        rando === random.current &&
-          (await FaceAI.getInstance().send({ image: videoElement }));
+        if (rando !== random.current) return;
+        const perf = performance.now();
+        FaceAI.getInstance().send({ image: videoElement });
+        console.log("frame test", performance.now() - perf);
         // console.log("send3");
       },
-      width: 640,
-      height: 480,
+      width: 640, //1280,
+      height: 480 // 960,
     });
     cam.start();
     FaceAI.getInstance().on("results", drawResults);
@@ -107,7 +109,7 @@ export const CameraFeed = () => {
 
   return (
     // <div className={`w-full h-full`}>
-    <div className={`-scale-x-100 w-96 h-72 relative`}>
+    <div className={`-scale-x-100 w-auto h-full relative`}>
       <video
         ref={input_video}
         autoPlay
@@ -116,7 +118,10 @@ export const CameraFeed = () => {
         className={`w-full h-full absolute top-0 left-0`}
         id="input_video"
       ></video>
-      <canvas ref={guides} className={`w-full h-full absolute top-0 left-0`} />
+      <canvas
+        ref={guides}
+        className={`w-full h-full absolute top-0 left-0 bg-slate-500/20`}
+      />
     </div>
     // {/* <button onClick={dylanSocketTest}>socket</button> */}
     // </div>

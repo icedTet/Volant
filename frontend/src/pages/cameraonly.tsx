@@ -1,7 +1,17 @@
 import React from "react";
-import { FixesEverything } from "../components/FixesEverything";
+import { CameraFeed } from "../components/CameraFeed";
+import { WeebFeed } from "../components/WeebFeed";
 
 export const StreamPage = () => {
-  return <FixesEverything />;
+  return (
+    <div className={`w-full h-screen`}>
+      <div className={`h-1/2 w-full`}>
+        <CameraFeed />
+      </div>
+      <div className={`h-1/2 w-full`}>
+        <WeebFeed />
+      </div>
+    </div>
+  );
 };
 export default StreamPage;
