@@ -21,6 +21,8 @@ export class Server {
       },
     });
 
+    console.log(`Starting on ${this.DEFAULT_PORT}`);
+
     this.setupSocketHandlers();
   }
 
@@ -37,6 +39,9 @@ export class Server {
       }
 
       const ffmpeg = spawn("ffmpeg", [
+        "re",
+        "-i",
+        "-",
         `rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
       ]);
 
