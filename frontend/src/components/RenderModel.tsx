@@ -24,7 +24,7 @@ export const RenderModel = (props: { model: VRM }) => {
       ></PCamera>
       {/* <CLog /> */}
 
-      <OrbitControls camera={camera.current} />
+      <OrbitControls camera={camera.current} enableDamping={false} />
       <group>
         <primitive object={model.scene} />
       </group>

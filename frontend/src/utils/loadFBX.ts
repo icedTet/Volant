@@ -1,4 +1,4 @@
-import { VRM } from "@pixiv/three-vrm";
+import { GLTFNode, VRM } from "@pixiv/three-vrm";
 import {
   AnimationClip,
   KeyframeTrack,
@@ -23,9 +23,7 @@ export function loadMixamoAnimation(url: string, vrm: VRM) {
 
     // Adjust with reference to hips height.
     const motionHipsHeight = asset.getObjectByName("mixamorigHips")!.position.y;
-    const vrmHipsY = vrm.humanoid
-      ?.getBoneNode("hips")
-      ?.getWorldPosition(_vec3).y!;
+    const vrmHipsY = vrm.humanoid?.getBoneNode("hips")?.getWorldPosition(_vec3).y!;
     const vrmRootY = vrm.scene.getWorldPosition(_vec3).y;
     const vrmHipsHeight = Math.abs(vrmHipsY - vrmRootY);
     const hipsPositionScale = vrmHipsHeight / motionHipsHeight;
@@ -35,8 +33,14 @@ export function loadMixamoAnimation(url: string, vrm: VRM) {
       const trackSplitted = track.name.split(".");
       const mixamoRigName = trackSplitted[0];
       const vrmBoneName = mixamoVRMRigMap[mixamoRigName];
-      const vrmNodeName =
-        vrm.humanoid?.getBoneNode(vrmBoneName)?.name;
+      let boneNode: GLTFNode | undefined | null;
+      try {
+        boneNode = vrm.humanoid?.getBoneNode(vrmBoneName);
+      } catch (error) {
+        console.log(error, vrmBoneName);
+      }
+
+      const vrmNodeName = boneNode?.name;
       const mixamoRigNode = asset.getObjectByName(mixamoRigName);
 
       if (vrmNodeName != null) {
@@ -89,8 +93,13 @@ export function loadMixamoAnimation(url: string, vrm: VRM) {
           );
         }
       }
+      console.log("3");
     });
 
-    return new AnimationClip("vrmAnimation", clip.duration, tracks);
+    console.log("4");
+
+    const ret = new AnimationClip("vrmAnimation", clip.duration, tracks);
+    console.log("ret: " + ret);
+    return ret;
   });
 }

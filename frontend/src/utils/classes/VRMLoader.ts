@@ -8,6 +8,36 @@ export type ModelData = {
   id: string;
   favorite?: boolean;
 };
+
+export type ModelComplete = {
+  vrm: VRMFile;
+  modelData: ModelData;
+};
+type ModelDefaultData = ModelData & {
+  url: string;
+};
+const modelDefaultData: ModelDefaultData[] = [
+  {
+    name: "Rin Kagamine",
+    id: "rin",
+    url: "rin.vrm",
+  },
+  {
+    name: "SpiderMan",
+    id: "spiderman",
+    url: "spiderman.vrm",
+  },
+  {
+    name: "Zhongli",
+    id: "zhongli",
+    url: "zhongli.vrm",
+  },
+  {
+    name: "Keqing",
+    id: "keqing",
+    url: "keqing.vrm",
+  },
+];
 export class VRMLoader extends EventEmitter {
   static instance: VRMLoader;
   static getInstance(): VRMLoader {
@@ -23,7 +53,8 @@ export class VRMLoader extends EventEmitter {
   private constructor() {
     super();
     this.modelMap = new Map();
-    this.cacheLoad();
+    this.modelDataMap = new Map();
+    // this.cacheLoad();
   }
   async cacheLoad() {
     console.log("cacheLoad");
@@ -49,6 +80,7 @@ export class VRMLoader extends EventEmitter {
     console.log("load");
     const model = new VRMFile(url, name, id);
     this.modelMap.set(id, model);
+    this.emit("modelLoaded", model);
     return model;
   }
   async addModelData(modelData: ModelData, blob: Blob) {
@@ -57,6 +89,7 @@ export class VRMLoader extends EventEmitter {
     this.modelDataMap.set(id, modelData);
     await localforage.setItem(`models.${id}`, blob);
     await localforage.setItem("models", this.modelDataMap);
+    this.emit("modelDataAdded", modelData);
   }
   getModels() {
     console.log("getModels");
@@ -87,6 +120,7 @@ export class VRMLoader extends EventEmitter {
     await localforage.setItem("models", this.modelDataMap);
   }
 }
+
 export class VRMFile extends EventEmitter {
   model?: VRM;
   gltf?: GLTF;
@@ -149,3 +183,13 @@ export class VRMFile extends EventEmitter {
     this.emit("error", error);
   }
 }
+
+modelDefaultData.map((modelDefaultData) => {
+  const { name, id, url } = modelDefaultData;
+  VRMLoader.getInstance().load(url, name, id);
+  VRMLoader.getInstance().modelDataMap.set(id, modelDefaultData);
+  VRMLoader.getInstance().emit("modelDataAdded", modelDefaultData);
+  VRMLoader.getInstance().setPrimaryModel("rin");
+  VRMLoader.getInstance().ready = true;
+  VRMLoader.getInstance().emit("ready");
+});

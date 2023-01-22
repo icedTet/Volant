@@ -15,7 +15,7 @@ export const AnimeGirlRenderer = (props: { model?: VRM | null }) => {
   }, [model]);
   useEffect(() => {
     if (!model) return;
-    loadMixamoAnimation("animation/Idle.fbx", model).then((animations) => {
+    loadMixamoAnimation("animation/Idle3.fbx", model).then((animations) => {
       setAnimations([animations]);
     });
   }, [model]);
@@ -77,7 +77,7 @@ export const AnimeGirlRenderer = (props: { model?: VRM | null }) => {
         zoom={1}
         ref={camera}
       ></PerspectiveCamera>
-      <OrbitControls />
+      <OrbitControls enableDamping={false} />
     </Canvas>
   );
 };
