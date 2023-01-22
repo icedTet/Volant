@@ -28,7 +28,6 @@ export class SocketConnection extends EventEmitter {
       mimeType: "video/webm",
       videoBitsPerSecond: 6000000,
     });
-
     console.log(this.mediaStream);
 
     this.mediaRecorder.ondataavailable = this.onStreamData.bind(this);
