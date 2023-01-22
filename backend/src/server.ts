@@ -46,6 +46,7 @@ export class Server {
       ]);
 
       this.io.on("message", (msg) => {
+        console.log("receiving data " + msg);
         if (Buffer.isBuffer(msg)) {
           ffmpeg.stdin.write(msg);
         }
