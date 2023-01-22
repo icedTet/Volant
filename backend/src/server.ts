@@ -43,16 +43,14 @@ export class Server {
       }
 
       const ffmpeg = spawn("ffmpeg", [
-        "re",
         "-i",
-        "-",
+        "pipe:0",
+        "-f",
+        "webm",
         "out.mp4",
         //`rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
       ]);
 
-      ffmpeg.stdout.on("data", (data) => {
-        console.log(`ffmpeg stdout: ${data}`);
-      });
       ffmpeg.stderr.on("data", (data) => {
         console.log(`ffmpeg stderr: ${data}`);
       });
