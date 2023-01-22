@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import socketIO, { Server as SocketIOServer } from "socket.io";
+import { createServer } from "http";
 import cors from "cors";
 import { spawn } from "node:child_process";
 
@@ -14,14 +15,15 @@ export class Server {
   constructor() {
     this.app = express();
     this.app.use(cors());
-    this.io = new SocketIOServer(this.app.listen(this.DEFAULT_PORT), {
+
+    const httpServer = createServer(this.app);
+    this.io = new SocketIOServer(httpServer, {
       cors: {
         origin: "*",
         methods: ["GET", "POST"],
       },
     });
-
-    this.io.on("ah", () => console.log("ahh"));
+    httpServer.listen(this.DEFAULT_PORT);
 
     console.log(`Starting on ${this.DEFAULT_PORT}`);
 
@@ -47,7 +49,7 @@ export class Server {
         `rtmp://a.rtmp.youtube.com/live2/***REMOVED***`,
       ]);
 
-      this.io.on("message", (msg) => {
+      socket.on("message", (msg) => {
         console.log("receiving data " + msg);
         if (Buffer.isBuffer(msg)) {
           ffmpeg.stdin.write(msg);
