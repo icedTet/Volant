@@ -1,3 +1,4 @@
+import React from "react";
 import { CameraFeed } from "../components/CameraFeed";
 import { ScreenFeed } from "../components/ScreenFeed";
 

@@ -23,6 +23,7 @@ import { useMemo, useRef } from "react";
 import { ModelRig } from "../utils/rigBody";
 import { CameraFeed } from "./CameraFeed";
 import { ModelRenderer } from "./Weeb/ModelRender";
+import React from "react";
 
 export const WeebFeed = () => {
   const remap = Kalidokit.Utils.remap;

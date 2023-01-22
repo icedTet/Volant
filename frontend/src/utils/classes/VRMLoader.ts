@@ -68,7 +68,7 @@ export class VRMLoader extends EventEmitter {
   }
   getPrimaryModel() {
     console.log("getPrimaryModel");
-    return this.modelMap.get(this.selectedModel);
+    return this.modelMap.get(this.selectedModel!);
   }
   async setPrimaryModel(id: string) {
     console.log("setPrimaryModel");
@@ -79,7 +79,7 @@ export class VRMLoader extends EventEmitter {
   }
   async deleteModel(id: string) {
     console.log("deleteModel");
-    URL.revokeObjectURL(this.modelMap.get(id)?.url);
+    URL.revokeObjectURL(this.modelMap.get(id)?.url!);
     this.modelMap.delete(id);
     this.modelDataMap.delete(id);
     localforage.removeItem(`models.${id}`);

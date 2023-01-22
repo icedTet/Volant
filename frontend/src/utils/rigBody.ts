@@ -60,19 +60,19 @@ export const rigFace = (riggedFace, model: VRM, oldLookTarget: Euler) => {
   rigRotation(model, "Neck", riggedFace.head, 0.7);
 
   // Blendshapes and Preset Name Schema
-  const Blendshape = model.expressionManager;
+  const Blendshape = model.expressionManager!;
   const PresetName = VRMExpressionPresetName;
 
   // Simple example without winking. Interpolate based on old blendshape, then stabilize blink with `Kalidokit` helper function.
   // for VRM, 1 is closed, 0 is open.
   riggedFace.eye.l = lerp(
     clamp(1 - riggedFace.eye.l, 0, 1),
-    Blendshape.getValue(PresetName.Blink),
+    Blendshape.getValue(PresetName.Blink)!,
     0.5
   );
   riggedFace.eye.r = lerp(
     clamp(1 - riggedFace.eye.r, 0, 1),
-    Blendshape.getValue(PresetName.Blink),
+    Blendshape.getValue(PresetName.Blink)!,
     0.5
   );
   riggedFace.eye = Kalidokit.Face.stabilizeBlink(
@@ -112,7 +112,8 @@ export const rigFace = (riggedFace, model: VRM, oldLookTarget: Euler) => {
     "XYZ"
   );
   oldLookTarget.copy(lookTarget);
-  model.lookAt.applier.lookAt(lookTarget); // !!TO-DO: Fix this
+  // console.log(model.scene);
+  model.lookAt!.applier.lookAt(lookTarget); // !!TO-DO: Fix this
 };
 export class ModelRig {
   model: VRM;

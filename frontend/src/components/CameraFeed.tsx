@@ -10,19 +10,19 @@ import { FaceAI } from "../utils/classes/FaceAI";
 import { SocketConnection } from "../utils/classes/SocketStreamer";
 
 export const CameraFeed = () => {
-  const input_video = useRef<HTMLVideoElement>();
-  const guides = useRef<HTMLCanvasElement>();
+  const input_video = useRef<HTMLVideoElement>(null);
+  const guides = useRef<HTMLCanvasElement>(null);
   const random = useRef(0);
   useEffect(() => {
-    const videoElement = input_video.current;
+    const videoElement = input_video.current!;
     let rando = ~~(Math.random() * 1000000000);
     random.current = parseInt(`${rando}`);
     const drawResults = (results) => {
-      const guideCanvas = guides.current;
+      const guideCanvas = guides.current!;
 
       guideCanvas.width = videoElement.videoWidth;
       guideCanvas.height = videoElement.videoHeight;
-      let canvasCtx = guideCanvas.getContext("2d");
+      let canvasCtx = guideCanvas.getContext("2d")!;
       canvasCtx.save();
       canvasCtx.clearRect(0, 0, guideCanvas.width, guideCanvas.height);
       // Use `Mediapipe` drawing functions
@@ -116,6 +116,7 @@ export const CameraFeed = () => {
           muted
           playsInline
           className={`w-full h-full absolute top-0 left-0`}
+          id="input_video"
         ></video>
         <canvas
           ref={guides}

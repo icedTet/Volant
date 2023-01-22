@@ -5,11 +5,6 @@ export class SocketConnection {
 
   constructor() {
     this.socket = io("http://***REMOVED***:443", {transports: ["websocket"]});
-
-    this.socket.emit("test");
-    this.socket.on("test-cb", () => {
-      console.log("test cb received");
-    });
   }
 
   public getSocket() {

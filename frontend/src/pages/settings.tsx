@@ -1,10 +1,13 @@
 import localforage from "localforage";
+import React from "react";
 import { useState } from "react";
 import Button, {
   ButtonColor,
   ButtonRoundedness,
   ButtonSize,
 } from "../components/Button";
+import { AnimeGirlRenderer } from "../components/Settings/AnimeGirlRender";
+import { useSelectedModel } from "../utils/hooks/useVRMFile";
 
 export const Settings = () => {
   const [key, setKey] = useState("");
@@ -14,12 +17,15 @@ export const Settings = () => {
   const handleChange = (avatar) => {
     setAvatar(avatar);
   };
+  const model = useSelectedModel()
   return (
     <div className={`grid grid-cols-10 gap-2 w-full min-h-screen`}>
       <div className={`col-span-6 bg-gray-100 p-16 flex flex-col gap-4`}>
         <h1 className={`text-6xl font-bold`}>Settings</h1>
       </div>
-      <div className={`col-span-4`}></div>
+      <div className={`col-span-4`}>
+        <AnimeGirlRenderer model={model} />
+      </div>
     </div>
 
     // <div className="container flex items-top mx-auto min-h-screen justify-left">

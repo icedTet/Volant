@@ -7,6 +7,7 @@ import * as Kalidokit from "kalidokit";
 import { NormalizedLandmarkList, Results } from "@mediapipe/holistic";
 import { FaceAI } from "../../utils/classes/FaceAI";
 import { useEffect } from "react";
+import React from "react";
 const prepAnimate = (model: VRM) => {
   const modelRig = new ModelRig(model);
   const oldLookAt = new Euler();
@@ -34,16 +35,16 @@ const prepAnimate = (model: VRM) => {
     if (faceLandmarks) {
       riggedFace = Kalidokit.Face.solve(faceLandmarks, {
         runtime: "mediapipe",
-        // video: HTMLVID,
+        // video: document.getElementById("input_video") as HTMLVideoElement,
       });
+    //   console.log(oldLookAt);
       modelRig.rigFace(riggedFace, oldLookAt);
     }
-
     // Animate Pose
     if (pose2DLandmarks && pose3DLandmarks) {
       riggedPose = Kalidokit.Pose.solve(pose3DLandmarks, pose2DLandmarks, {
         runtime: "mediapipe",
-        // video: videoElement,
+        // video: document.getElementById("input_video") as HTMLVideoElement,
       });
       modelRig.rigRotation("Hips", riggedPose.Hips.rotation, 0.7);
       modelRig.rigPosition(
@@ -191,14 +192,15 @@ const prepAnimate = (model: VRM) => {
     }
   };
 };
-export const ModelRenderer = (props: { model?: VRM }) => {
+export const ModelRenderer = (props: { model?: VRM | null }) => {
   const { model } = props;
   const oldLookat = useRef(new Euler());
 
-  useFrame((state,delta,xrFrame) => {
+  useFrame((state, delta, xrFrame) => {
     model?.update(delta);
   });
   useEffect(() => {
+    if (!model) return;
     const preprig = prepAnimate(model);
     FaceAI.getInstance().on("results", preprig);
     return () => {
@@ -207,5 +209,9 @@ export const ModelRenderer = (props: { model?: VRM }) => {
   }, [model]);
   if (!model) return null;
 
-  return <primitive object={model.scene} />;
+  return (
+    <group>
+      <primitive object={model.scene} />
+    </group>
+  );
 };

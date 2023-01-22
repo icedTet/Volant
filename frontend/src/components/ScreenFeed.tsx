@@ -1,14 +1,15 @@
+import React from "react";
 import { useEffect, useRef } from "react";
 
 export const ScreenFeed = () => {
-  const camRef = useRef<HTMLVideoElement>();
+  const camRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     let stream = (async () => {
       if (!camRef.current || !globalThis.navigator) {
         console.error("No navigator");
         return;
       }
-      let captureStream: MediaStream;
+      let captureStream: MediaStream | null = null;
 
       try {
         captureStream = await navigator.mediaDevices?.getDisplayMedia({
@@ -16,6 +17,7 @@ export const ScreenFeed = () => {
           video: true,
         });
       } catch (err) {
+        captureStream = null;
         console.error(`Error: ${err}`);
       }
       //   const mediaRecorder = new MediaRecorder(captureStream);
@@ -31,8 +33,8 @@ export const ScreenFeed = () => {
     <video
       className="input_video"
       ref={camRef}
-    //   width="4096px"
-    //   height="1920px"
+      //   width="4096px"
+      //   height="1920px"
       autoPlay
       muted
       playsInline

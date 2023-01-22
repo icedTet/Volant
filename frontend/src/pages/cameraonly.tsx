@@ -1,6 +1,7 @@
-import { CameraFeed } from "../components/CameraFeed";
+import React from "react";
+import { FixesEverything } from "../components/FixesEverything";
 
 export const StreamPage = () => {
-  return <CameraFeed />;
+  return <FixesEverything />;
 };
 export default StreamPage;
