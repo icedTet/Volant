@@ -10,16 +10,24 @@
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
+    "@mediapipe/camera_utils": "^0.3.1640029074",
+    "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/holistic": "^0.5.1635989137",
+    "@pixiv/three-vrm": "^1.0.6",
+    "@react-three/fiber": "^8.10.1",
     "localforage": "^1.10.0",
+    "ls": "^0.2.1",
+    "media-stream-merger": "^1.0.0",
     "next": "13.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "socket.io-client": "^4.5.4"
+    "socket.io-client": "^4.5.4",
+    "three": "^0.148.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
+    "@types/three": "^0.148.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "postcss-import": "^15.1.0",

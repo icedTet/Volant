@@ -31,8 +31,8 @@ export const ScreenFeed = () => {
     <video
       className="input_video"
       ref={camRef}
-      width="1280px"
-      height="720px"
+    //   width="4096px"
+    //   height="1920px"
       autoPlay
       muted
       playsInline
