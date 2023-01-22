@@ -1,4 +1,4 @@
-import { VRM, VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
+import { VRM, VRMUtils } from "@pixiv/three-vrm";
 import localforage from "localforage";
 import { EventEmitter } from "events";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -103,10 +103,10 @@ export class VRMFile extends EventEmitter {
   }
   async loadVRM() {
     const loader = new GLTFLoader();
-    loader.register((parser) => new VRMLoaderPlugin(parser));
     const gltf = await loader.loadAsync(this.url);
-    const vrm = gltf.userData.vrm as VRM;
+    const vrm = await VRM.from(gltf);
     VRMUtils.removeUnnecessaryJoints(gltf.scene);
+    gltf.scene.rotation.y = Math.PI;
     this.model = vrm;
     this.gltf = gltf;
     this.emit("loaded", vrm);
@@ -131,8 +131,8 @@ export class VRMFile extends EventEmitter {
       while (!this.model) {
         await new Promise((resolve) => setTimeout(resolve, 10));
       }
-      return this.model;
     }
+    return this.model;
   }
   async getGLTF() {
     if (!this.gltf) {

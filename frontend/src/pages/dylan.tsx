@@ -101,7 +101,6 @@ export const dylan = () => {
     mediaRecorder.ondataavailable = (e: BlobEvent) => {
         console.log("data avaliable" + e.data);
         server.getSocket().emit("message", e.data);
-        server.getSocket().emit("ah");
     };
     
     mediaRecorder.start(100);

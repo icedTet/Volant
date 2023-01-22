@@ -1,23 +1,9 @@
 import { Utils, Vector, Face, Pose, Hand, XYZ } from "kalidokit";
 import * as THREE from "three";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import {
-  VRM,
-  VRMHumanBoneName,
-  VRMExpressionPresetName,
-  VRMUtils,
-  VRMLoaderPlugin,
-} from "@pixiv/three-vrm";
-import {
-  HAND_CONNECTIONS,
-  Holistic,
-  POSE_CONNECTIONS,
-  FACEMESH_TESSELATION,
-  Results,
-} from "@mediapipe/holistic";
-import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
-import { Camera } from "@mediapipe/camera_utils";
+import { VRM, VRMSchema, VRMUtils } from "@pixiv/three-vrm";
+import { FaceAI } from "./FaceAI";
+import { RootState } from "@react-three/fiber";
+import { Scene } from "three";
 
 const { clamp } = Utils;
 const { lerp } = Vector;
@@ -25,129 +11,46 @@ const { lerp } = Vector;
 type TFace = NonNullable<ReturnType<typeof Face["solve"]>>;
 
 export class KalidokitController {
-  private loader = new GLTFLoader();
-
-  private orbitCamera = new THREE.PerspectiveCamera(
-    35,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-
-  private renderer = new THREE.WebGLRenderer({
-    alpha: true,
-  });
-
-  private orbitControls = new OrbitControls(
-    this.orbitCamera,
-    this.renderer.domElement
-  );
-
-  public scene = new THREE.Scene();
-
-  public clock = new THREE.Clock();
-
-  private currentVRM?: VRM;
-
   private oldLookTarget = new THREE.Euler();
 
-  constructor(
-    public readonly video: HTMLVideoElement,
-    public readonly model: string,
-    public readonly canvas: HTMLCanvasElement
-  ) {
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    document.body.appendChild(this.renderer.domElement);
-
-    this.orbitCamera.position.set(0.0, 1.4, 0.7);
-
-    this.orbitControls.screenSpacePanning = true;
-    this.orbitControls.target.set(0.0, 1.4, 0.0);
-    this.orbitControls.update();
-
-    const light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(1.0, 1.0, 1.0).normalize();
-    this.scene.add(light);
-    this.animate();
+  public vrm?: VRM | null | undefined;
+  constructor(vrm: VRM,) {
+    this.vrm = vrm;
+    FaceAI.getInstance().on("results", this.animateVRM.bind(this));
+    console.log("vrm added ", vrm);
   }
-
-  public init = async (
-    onProgress: (event: ProgressEvent<EventTarget>) => void
-  ) => {
-    const gltf = await this.load(onProgress);
-
-    const loader = new GLTFLoader();
-
-    loader.register((parser) => new VRMLoaderPlugin(parser)); // here we are installing VRMLoaderPlugin
+  dispose() {
+    FaceAI.getInstance().off("results", this.animateVRM.bind(this));
+    console.log("vrm removed ", this.vrm);
     
-    const vrm = loader.loadAsync(this.model).then((gltf) => {
-      const vrm = gltf.userData.vrm; // `VRM` is loaded inside `gltf.userData.vrm`
-    
-      VRMUtils.rotateVRM0(vrm); // rotate the vrm around y axis if the vrm is VRM0.0
-    
-      return vrm;
-    });
-    //const vrm = await VRM.from(gltf);
-    this.scene.add((await vrm).scene);
-    this.currentVRM = await vrm;
-    //this.currentVRM.scene.rotation.y = Math.PI;
-
-    VRMUtils.removeUnnecessaryJoints(gltf.scene); // NEW!!!
-    const holistic = new Holistic({
-      locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/${file}`;
-      },
-    });
-    holistic.setOptions({
-      modelComplexity: 1,
-      smoothLandmarks: true,
-      minDetectionConfidence: 0.7,
-      minTrackingConfidence: 0.7,
-      refineFaceLandmarks: true,
-    });
-    holistic.onResults((results) => {
-      this.drawResults(results);
-      this.animateVRM(this.currentVRM!, results);
-    });
-
-    const camera = new Camera(this.video, {
-      onFrame: async () => {
-        await holistic.send({ image: this.video });
-      },
-      width: 640,
-      height: 480,
-    });
-    camera.start();
-  };
-
-  public update = (delta: number) => {
-    this.currentVRM?.update(delta);
-  };
-
-  public animate = () => {
-    requestAnimationFrame(this.animate);
-    this.update(this.clock.getDelta());
-    this.renderer.render(this.scene, this.orbitCamera);
-  };
-
-  private load(onProgress: (event: ProgressEvent<EventTarget>) => void) {
-    this.loader.crossOrigin = "anonymous";
-    return new Promise<GLTF>((resolve, reject) =>
-      this.loader.load(
-        this.model,
-        async (gltf) => {
-          resolve(gltf);
-        },
-
-        onProgress,
-
-        (error) => {
-          reject(error);
-        }
-      )
-    );
   }
+  // public update = (delta: number) => {
+  //   this.vrm?.update(delta);
+  // };
+
+  // public animate = () => {
+  //   requestAnimationFrame(this.animate);
+  //   this.update(this.clock.getDelta());
+  //   this.renderer.render(this.scene, this.orbitCamera);
+  // };
+
+  // private load(onProgress: (event: ProgressEvent<EventTarget>) => void) {
+  //   this.loader.crossOrigin = "anonymous";
+  //   return new Promise<GLTF>((resolve, reject) =>
+  //     this.loader.load(
+  //       this.model,
+  //       async (gltf) => {
+  //         resolve(gltf);
+  //       },
+
+  //       onProgress,
+
+  //       (error) => {
+  //         reject(error);
+  //       }
+  //     )
+  //   );
+  // }
 
   public rigRotation = (
     name: string,
@@ -157,9 +60,11 @@ export class KalidokitController {
     dampener = 1,
     lerpAmt = 0.3
   ) => {
-    if (!this.currentVRM) return void null;
-    const Part = this.currentVRM.humanoid?.getBoneNode(
-      VRMHumanBoneName[name as keyof typeof VRMHumanBoneName]
+    if (!this.vrm) return void null;
+    const Part = this.vrm.humanoid?.getBoneNode(
+      VRMSchema.HumanoidBoneName[
+        name as keyof typeof VRMSchema.HumanoidBoneName
+      ]
     );
     if (!Part) return void null;
 
@@ -176,9 +81,11 @@ export class KalidokitController {
     dampener = 1,
     lerpAmt = 0.3
   ) => {
-    if (!this.currentVRM) return void null;
-    const Part = this.currentVRM.humanoid?.getBoneNode(
-      VRMHumanBoneName[name as keyof typeof VRMHumanBoneName]
+    if (!this.vrm) return void null;
+    const Part = this.vrm.humanoid?.getBoneNode(
+      VRMSchema.HumanoidBoneName[
+        name as keyof typeof VRMSchema.HumanoidBoneName
+      ]
     );
     if (!Part) return;
     let vector = new THREE.Vector3(x * dampener, y * dampener, z * dampener);
@@ -186,7 +93,7 @@ export class KalidokitController {
   };
 
   public rigFace = (riggedFace: TFace) => {
-    if (!this.currentVRM) return void null;
+    if (!this.vrm) return void null;
     this.rigRotation(
       "Neck",
       riggedFace?.head.x,
@@ -195,8 +102,8 @@ export class KalidokitController {
       0.7
     );
 
-    const Blendshape = this.currentVRM.expressionManager!;
-    const PresetName = VRMExpressionPresetName;
+    const Blendshape = this.vrm.blendShapeProxy!;
+    const PresetName = VRMSchema.BlendShapePresetName;
 
     riggedFace.eye.l = lerp(
       clamp(1 - riggedFace.eye.l, 0, 1),
@@ -228,23 +135,19 @@ export class KalidokitController {
       "XYZ"
     );
     this.oldLookTarget.copy(lookTarget);
-    this.currentVRM.lookAt?.applier?.lookAt(lookTarget);
+    this.vrm.lookAt?.applyer?.lookAt(lookTarget);
   };
 
-  public animateVRM = (
-    vrm: VRM,
-    {
-      faceLandmarks,
-      ea: pose3DLandmarks,
-      poseLandmarks: pose2DLandmarks,
-      rightHandLandmarks: leftHandLandmarks,
-      leftHandLandmarks: rightHandLandmarks,
-    }: any
-  ) => {
+  public animateVRM = ({
+    faceLandmarks,
+    ea: pose3DLandmarks,
+    poseLandmarks: pose2DLandmarks,
+    rightHandLandmarks: leftHandLandmarks,
+    leftHandLandmarks: rightHandLandmarks,
+  }: any) => {
     if (faceLandmarks) {
       const riggedFace = Face.solve(faceLandmarks, {
         runtime: "mediapipe",
-        video: this.video,
       })!;
       this.rigFace(riggedFace);
     }
@@ -252,7 +155,6 @@ export class KalidokitController {
     if (pose2DLandmarks && pose3DLandmarks) {
       const riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
         runtime: "mediapipe",
-        video: this.video,
       })!;
       this.rigRotation(
         "Hips",
@@ -365,53 +267,5 @@ export class KalidokitController {
         }
       }
     }
-  };
-
-  public drawResults = (results: any) => {
-    this.canvas.width = this.video.videoWidth;
-    this.canvas.height = this.video.videoHeight;
-    const ctx = this.canvas.getContext("2d")!;
-    ctx.save();
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // Use `Mediapipe` drawing functions
-    drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, {
-      color: "#00cff7",
-      lineWidth: 4,
-    });
-    drawLandmarks(ctx, results.poseLandmarks, {
-      color: "#ff0364",
-      lineWidth: 2,
-    });
-    drawConnectors(ctx, results.faceLandmarks, FACEMESH_TESSELATION, {
-      color: "#C0C0C070",
-      lineWidth: 1,
-    });
-    if (results.faceLandmarks && results.faceLandmarks.length === 478) {
-      //draw pupils
-      drawLandmarks(
-        ctx,
-        [results.faceLandmarks[468], results.faceLandmarks[468 + 5]],
-        {
-          color: "#ffe603",
-          lineWidth: 2,
-        }
-      );
-    }
-    drawConnectors(ctx, results.leftHandLandmarks, HAND_CONNECTIONS, {
-      color: "#eb1064",
-      lineWidth: 5,
-    });
-    drawLandmarks(ctx, results.leftHandLandmarks, {
-      color: "#00cff7",
-      lineWidth: 2,
-    });
-    drawConnectors(ctx, results.rightHandLandmarks, HAND_CONNECTIONS, {
-      color: "#22c3e3",
-      lineWidth: 5,
-    });
-    drawLandmarks(ctx, results.rightHandLandmarks, {
-      color: "#ff0364",
-      lineWidth: 2,
-    });
   };
 }

@@ -108,21 +108,16 @@ export const CameraFeed = () => {
 
   return (
     // <div className={`w-full h-full`}>
-    <div className={`w-96 h-72 absolute bottom-0 right-0 z-10`}>
-      <div className={`-scale-x-100 w-96 h-72 relative`}>
-        <video
-          ref={input_video}
-          autoPlay
-          muted
-          playsInline
-          className={`w-full h-full absolute top-0 left-0`}
-          id="input_video"
-        ></video>
-        <canvas
-          ref={guides}
-          className={`w-full h-full absolute top-0 left-0`}
-        />
-      </div>
+    <div className={`-scale-x-100 w-96 h-72 relative`}>
+      <video
+        ref={input_video}
+        autoPlay
+        muted
+        playsInline
+        className={`w-full h-full absolute top-0 left-0`}
+        id="input_video"
+      ></video>
+      <canvas ref={guides} className={`w-full h-full absolute top-0 left-0`} />
     </div>
     // {/* <button onClick={dylanSocketTest}>socket</button> */}
     // </div>

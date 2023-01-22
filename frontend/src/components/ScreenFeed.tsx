@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useRef } from "react";
+import { StreamMerger } from "../utils/classes/StreamMerger";
 
 export const ScreenFeed = () => {
   const camRef = useRef<HTMLVideoElement>(null);
@@ -22,16 +23,20 @@ export const ScreenFeed = () => {
       }
       //   const mediaRecorder = new MediaRecorder(captureStream);
       //   mediaRecorder.start();
-      camRef.current.srcObject = captureStream;
+      if (captureStream) {
+        camRef.current.srcObject = captureStream;
+        StreamMerger.getInstance().setScreenStream(captureStream!);
+      }
       return captureStream;
-    })();
+    })() as Promise<MediaStream | null>;
     return () => {
-      // stream.then(s=>)
+      // stop stream
+      stream.then((s) => s?.getTracks().forEach((t) => t.stop()));
     };
   }, [camRef]);
   return (
     <video
-      className="input_video"
+      className="input_video w-full h-full"
       ref={camRef}
       //   width="4096px"
       //   height="1920px"
