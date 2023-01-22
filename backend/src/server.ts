@@ -65,8 +65,8 @@ export class Server {
         "-c:a",
         "aac",
         "-f",
-        "flv",
-        "anullsrc=r=48000:cl=mono",
+        "lavfi",
+        "anullsrc=r=48000:cl=stereo",
         "rtmp://a.rtmp.youtube.com/live2/***REMOVED***",
       ]);
 
