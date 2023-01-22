@@ -39,7 +39,7 @@ export const WeebFeed = () => {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const stream = canvasRef.current.captureStream(60);
+    const stream = canvasRef.current.captureStream(30);
     StreamMerger.getInstance().setVideoStream(stream);
   }, []);
 
