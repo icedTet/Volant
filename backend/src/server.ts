@@ -27,12 +27,9 @@ export class Server {
   }
 
   private setupSocketHandlers(): void {
-    this.io.on("test", () => {
-      console.log("recieved test");
-      this.io.emit("test_cb");
-    });
     this.io.on("connection", (socket) => {
       console.log(`Connection UUID: ${socket.id}`);
+      this.io.emit("hello", "world");
 
       const existingSocket = this.activeSockets.find(
         (existingSocket) => existingSocket === socket.id
