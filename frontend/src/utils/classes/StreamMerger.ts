@@ -64,8 +64,8 @@ export class StreamMerger extends EventEmitter {
       this.merger.addStream(this.videoStream, {
         x: 0,
         y: 0,
-        width: this.width / 8,
-        height: (this.width * 0.5625) / 8,
+        width: this.width / 4,
+        height: (this.width * 0.5625) / 4,
         mute: false,
       } as any);
     this.audioStream && this.merger.addStream(this.audioStream, undefined);

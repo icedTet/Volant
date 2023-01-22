@@ -78,12 +78,12 @@ export const CameraFeed = () => {
       height: 480 // 960,
     });
     cam.start();
-    FaceAI.getInstance().on("results", drawResults);
+    //FaceAI.getInstance().on("results", drawResults);
 
     return () => {
       cam.stop();
       // cam
-      FaceAI.getInstance().off("results", drawResults);
+      //FaceAI.getInstance().off("results", drawResults);
     };
   }, []);
 
