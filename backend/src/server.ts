@@ -57,7 +57,7 @@ export class Server {
         "-i",
         "anullsrc=r=48000:cl=stereo",
         "-c:v",
-        "h264",
+        "copy",
         "-preset",
         "veryFast",
         "-pix_fmt",
