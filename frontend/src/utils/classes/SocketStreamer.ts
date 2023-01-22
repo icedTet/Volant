@@ -42,7 +42,7 @@ export class SocketConnection extends EventEmitter {
   public startStream() {
     this.streaming = true;
     if (this.mediaRecorder?.state !== "recording") {
-      this.mediaRecorder?.start(100);
+      this.mediaRecorder?.start(0);
     }
     return this.socket;
   }

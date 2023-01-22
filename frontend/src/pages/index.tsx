@@ -1,34 +1,47 @@
-import { useRouter } from "next/router";
 import React from "react";
+import { CameraFeed } from "../components/CameraFeed";
+import { ScreenFeed } from "../components/ScreenFeed";
+import { WeebFeed } from "../components/WeebFeed";
+import { MicrophoneStreamer } from "../utils/classes/AudioManager";
+import SocketConnection from "../utils/classes/SocketStreamer";
+import { StreamMerger } from "../utils/classes/StreamMerger";
 
-export default function Home() {
-  const router = useRouter();
+export const StreamPage = () => {
   return (
-    <div className="container flex items-center p-4 mx-auto min-h-screen justify-center">
-      <main>
-        <h1 className="font-poppins font-bold text-5xl code">
-          Welcome to <span className="text-purple-700">Voutube</span>
-        </h1>
+    <div className={`w-screen h-screen relative`}>
+      <div className={`absolute top-0 left-0 w-full h-full z-0`}>
+        <ScreenFeed />
+      </div>
+      <div
+        className={`absolute bottom-4 right-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden`}
+      >
+        <CameraFeed />
+      </div>
+      <div
+        className={`absolute bottom-80 right-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden`}
+      >
+        <WeebFeed />
+      </div>
+      <div className="absolute bottom-4 left-4 w-96 h-72 z-10 rounded-2xl shadow-md overflow-hidden">
         <button
-          className="bg-purple-700 text-white rounded-md p-2"
-          onClick={() => router.push("/stream")}
+          className="w-full bg-gray-200"
+          onClick={() => {
+            StreamMerger.getInstance().renderStream();
+            SocketConnection.getInstance().startStream();
+          }}
         >
-          Go to Stream
-        </button>
-
-        <button
-          className="bg-purple-700 text-white rounded-md p-2"
-          onClick={() => router.push("/stream")}
-        >
-          Go to Stream
+          Chat
         </button>
         <button
-          className="bg-purple-700 text-white rounded-md p-2"
-          onClick={() => router.push("/cameraonly")}
+          className="w-full bg-gray-200"
+          onClick={() => {
+            MicrophoneStreamer.getInstance().getMicrophoneAccess();
+          }}
         >
-          Go to cameraonly
+          MicOn
         </button>
-      </main>
+      </div>
     </div>
   );
-}
+};
+export default StreamPage;

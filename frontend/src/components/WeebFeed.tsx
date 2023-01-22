@@ -60,7 +60,7 @@ export const WeebFeed = () => {
           ref={camera}
         ></PCamera>
         <ambientLight intensity={4} />
-        <OrbitControls camera={camera.current} />
+        <OrbitControls camera={camera.current} enableDamping={false} />
         {model && <ModelRenderer model={model} />}
       </Canvas>
     </div>

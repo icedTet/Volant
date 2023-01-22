@@ -19,7 +19,7 @@ export const AnimeGirlObject = (props: {
   }, []);
   return (
     <group>
-      <primitive object={model.scene} />
+      <primitive object={model.scene} scale={4} />
     </group>
   );
 };

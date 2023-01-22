@@ -22,7 +22,6 @@ export class FaceAI extends EventEmitter {
     super();
     this.holistic = new Holistic({
       locateFile: (file) => {
-        console.log(`${file}`);
         return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
       },
     });

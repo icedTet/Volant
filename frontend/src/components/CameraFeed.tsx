@@ -71,19 +71,17 @@ export const CameraFeed = () => {
         if (rando !== random.current) return;
         const perf = performance.now();
         FaceAI.getInstance().send({ image: videoElement });
-        console.log("frame test", performance.now() - perf);
-        // console.log("send3");
       },
       width: 640, //1280,
       height: 480 // 960,
     });
     cam.start();
-    //FaceAI.getInstance().on("results", drawResults);
+    FaceAI.getInstance().on("results", drawResults);
 
     return () => {
       cam.stop();
       // cam
-      //FaceAI.getInstance().off("results", drawResults);
+      FaceAI.getInstance().off("results", drawResults);
     };
   }, []);
 
