@@ -84,7 +84,7 @@ export class Server {
       });
 
       // If the WebSocket connection goes away, clean up ffmpeg
-      socket.on("close", (e) => {
+      socket.on("disconnect", (e) => {
         ffmpeg.stdin.end();
         ffmpeg.kill("SIGINT");
       });
