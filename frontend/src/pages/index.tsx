@@ -96,7 +96,7 @@ export const HomePage = () => {
                 type={"number"}
                 placeholder="Stream Height"
                 className="basicinput"
-                value={streamHeight}
+                value={streamHeight} 
                 onChange={(e) => setStreamHeight(e.target.value as any)}
               />
               <span className={`text-gray-900/30`}>@</span>
