@@ -53,7 +53,7 @@ export class Server {
         "-i",
         "pipe:0",
         "-c:v",
-        "libx264",
+        "h264",
         "-preset",
         "veryFast",
         "-pix_fmt",
@@ -62,6 +62,10 @@ export class Server {
         "aac",
         "-movflags",
         "+faststart",
+        "-c:a",
+        "aac",
+        "-f",
+        "flv",
         "rtmp://a.rtmp.youtube.com/live2/***REMOVED***",
       ]);
 
