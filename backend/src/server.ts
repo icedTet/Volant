@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import socketIO, { Server as SocketIOServer } from "socket.io";
+import { Server as SocketIOServer } from "socket.io";
 import { createServer } from "http";
 import cors from "cors";
 import { spawn } from "node:child_process";
