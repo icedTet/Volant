@@ -1,7 +1,6 @@
-import { VRM, VRMUtils } from "@pixiv/three-vrm";
+import { VRM } from "@pixiv/three-vrm";
 import { useEffect, useState } from "react";
-import * as THREE from "three";
-import { VRMFile, VRMLoader } from "../classes/VRMLoader";
+import { VRMLoader } from "../classes/VRMLoader";
 
 export const useSelectedModel = () => {
   const [model, setModel] = useState(null as null | VRM | undefined); //undefined if not loaded, null if loaded but not set yet

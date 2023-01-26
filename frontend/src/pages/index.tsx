@@ -1,17 +1,11 @@
 import Link from "next/link"
 import { FileUploader } from "react-drag-drop-files";
-import localforage from "localforage";
 import React from "react";
-import { useState, useRef } from "react";
-import Button, {
-  ButtonColor,
-  ButtonRoundedness,
-  ButtonSize,
-} from "../components/Button";
+import { useState } from "react";
 import { AnimeGirlCard } from "../components/Settings/AnimeGirlCard";
 import { AnimeGirlCreateYourOwn } from "../components/Settings/AnimeGirlCreateYourOwn";
 import { AnimeGirlRenderer } from "../components/Settings/AnimeGirlRender";
-import { VRMFile, VRMLoader } from "../utils/classes/VRMLoader";
+import { VRMLoader } from "../utils/classes/VRMLoader";
 import { useAllModelData } from "../utils/hooks/useAllModelData";
 import { useSelectedModel } from "../utils/hooks/useVRMFile";
 import { Modal } from "../components/Modal"
@@ -22,19 +16,12 @@ export const HomePage = () => {
   const [streamWidth, setStreamWidth] = useState(1280);
   const [streamHeight, setStreamHeight] = useState(730);
   const [streamFPS, setStreamFPS] = useState(60);
-  const [avatar, setAvatar] = useState(null as null | File);
-  const [fileHovering, setFileHovering] = useState(false);
-  const [performance, setPerformance] = useState(null);
   const [modalOpen, setModalOpen] = useState(false)
   const [file, setFile] = useState(null);
 
-  const handleChange = (avatar) => {
-    setAvatar(avatar);
-  };
 
   const handleFileUpload = (file) => {
     setFile(file)
-    
 
     // TODO set up and do image canvas stuff localforge
   }
@@ -96,7 +83,7 @@ export const HomePage = () => {
                 type={"number"}
                 placeholder="Stream Height"
                 className="basicinput"
-                value={streamHeight} 
+                value={streamHeight}
                 onChange={(e) => setStreamHeight(e.target.value as any)}
               />
               <span className={`text-gray-900/30`}>@</span>

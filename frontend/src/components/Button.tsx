@@ -1,4 +1,5 @@
 import React from "react";
+
 export enum ButtonSize {
   xs = 1,
   sm = 2,
@@ -86,7 +87,7 @@ export const Button = (props: ButtonProps) => {
       className={`${props.overrideClasses}
       ${props.color || ButtonColor.primary}
       ${props.shadowOnHover || ButtonHover.shadowOnHoverNone}
-      ${props.roundedNess || ButtonRoundedness.md} 
+      ${props.roundedNess || ButtonRoundedness.md}
       ${classset1}
       transition-all disabled:opacity-50 cursor-pointer`}
       onClick={props.onClick}

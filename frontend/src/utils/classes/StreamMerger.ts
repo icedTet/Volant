@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import { VideoStreamMerger } from "video-stream-merger";
 import SocketConnection from "./SocketStreamer";
+
 export class StreamMerger extends EventEmitter {
   static instance: StreamMerger;
   static getInstance(): StreamMerger {
@@ -36,7 +37,7 @@ export class StreamMerger extends EventEmitter {
     //   this.merger.stop();
     //   this.renderStream();
     // }
-    
+
   }
   setScreenStream(stream: MediaStream) {
     this.screenStream = stream;

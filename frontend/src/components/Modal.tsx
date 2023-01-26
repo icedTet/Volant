@@ -1,6 +1,7 @@
 import { Transition } from '@headlessui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+
 export const Modal = (props: {
   children: React.ReactNode
   onClose: () => void
@@ -19,9 +20,8 @@ export const Modal = (props: {
   return createPortal(
     <>
       <div
-        className={`z-50 fixed top-0 left-0 w-screen h-screen bg-gray-900 ${
-          visible ? `opacity-40 dark:opacity-80` : `opacity-0 pointer-events-none`
-        }`}
+        className={`z-50 fixed top-0 left-0 w-screen h-screen bg-gray-900 ${visible ? `opacity-40 dark:opacity-80` : `opacity-0 pointer-events-none`
+          }`}
         onClick={onClose}
       />
       <Transition
@@ -35,9 +35,8 @@ export const Modal = (props: {
         as={React.Fragment}
       >
         <div
-          className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${
-            !hideBG && `dark:bg-gray-800 bg-gray-150`
-          } p-2 rounded-xl dark:text-gray-100 ${className}`}
+          className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${!hideBG && `dark:bg-gray-800 bg-gray-150`
+            } p-2 rounded-xl dark:text-gray-100 ${className}`}
         >
           {children}
         </div>

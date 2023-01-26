@@ -1,11 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 import React, { useEffect, useRef, useState } from "react";
-import { ModelData, VRMFile, VRMLoader } from "../../utils/classes/VRMLoader";
+import { ModelData, VRMLoader } from "../../utils/classes/VRMLoader";
 import { VRMFileRenderer } from "./VRMFileRenderer";
 import { PerspectiveCamera as PCamera } from "@react-three/drei";
-import { AnimationClip, PerspectiveCamera } from "three";
+import { PerspectiveCamera } from "three";
 import { usePrimaryModel } from "../../utils/hooks/usePrimaryModel";
 import { VRM } from "@pixiv/three-vrm";
+
 export const AnimeGirlCard = (props: {
   data: ModelData;
   onClick: (model: ModelData) => void;
@@ -32,8 +33,8 @@ export const AnimeGirlCard = (props: {
   return (
     <div
       className={`flex flex-col gap-4 h-[28rem] bg-gray-100 rounded-2xl shadow-md relative overflow-hidden hover:bg-gray-50 group cursor-pointer hover:shadow-lg transition-all ${pmodel === data.id
-          ? `ring-2 ring-purple-500 hover:ring-4`
-          : `hover:ring-2`
+        ? `ring-2 ring-purple-500 hover:ring-4`
+        : `hover:ring-2`
         } duration-300`}
       onClick={() => onClick(data)}
     >

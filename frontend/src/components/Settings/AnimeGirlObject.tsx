@@ -1,7 +1,7 @@
 import { VRM, VRMSchema } from "@pixiv/three-vrm";
-import { AnimationClip, LoopRepeat, PerspectiveCamera, Vector3 } from "three";
-import { useAnimations } from "@react-three/drei";
+import { PerspectiveCamera, Vector3 } from "three";
 import React, { useEffect } from "react";
+
 export const AnimeGirlObject = (props: {
   model: VRM;
   camera: React.MutableRefObject<PerspectiveCamera | null>;

@@ -1,8 +1,7 @@
-import { Utils, Vector, Face, Pose, Hand, XYZ } from "kalidokit";
+import { Utils, Vector, Face, Pose, Hand } from "kalidokit";
 import * as THREE from "three";
 import { VRM, VRMSchema } from "@pixiv/three-vrm";
 import { FaceAI } from "./FaceAI";
-import { Scene } from "three";
 
 const { clamp } = Utils;
 const { lerp } = Vector;
@@ -61,11 +60,11 @@ export class KalidokitController {
     if (!this.vrm) return void null;
     const Part = this.vrm.humanoid?.getBoneNode(
       VRMSchema.HumanoidBoneName[
-        name as keyof typeof VRMSchema.HumanoidBoneName
+      name as keyof typeof VRMSchema.HumanoidBoneName
       ]
     );
     if (!Part) return void null;
- 
+
     let euler = new THREE.Euler(x * dampener, y * dampener, z * dampener);
     let quaternion = new THREE.Quaternion().setFromEuler(euler);
     Part.quaternion.slerp(quaternion, lerpAmt);
@@ -82,7 +81,7 @@ export class KalidokitController {
     if (!this.vrm) return void null;
     const Part = this.vrm.humanoid?.getBoneNode(
       VRMSchema.HumanoidBoneName[
-        name as keyof typeof VRMSchema.HumanoidBoneName
+      name as keyof typeof VRMSchema.HumanoidBoneName
       ]
     );
     if (!Part) return;
@@ -117,11 +116,11 @@ export class KalidokitController {
     Blendshape.setValue(PresetName.Blink, riggedFace.eye.l);
 
     // Interpolate and set mouth blendshapes
-    Blendshape.setValue(PresetName.I, lerp(riggedFace.mouth.shape.I,Blendshape.getValue(PresetName.I)!, .5));
-    Blendshape.setValue(PresetName.A, lerp(riggedFace.mouth.shape.A,Blendshape.getValue(PresetName.A)!, .5));
-    Blendshape.setValue(PresetName.E, lerp(riggedFace.mouth.shape.E,Blendshape.getValue(PresetName.E)!, .5));
-    Blendshape.setValue(PresetName.O, lerp(riggedFace.mouth.shape.O,Blendshape.getValue(PresetName.O)!, .5));
-    Blendshape.setValue(PresetName.U, lerp(riggedFace.mouth.shape.U,Blendshape.getValue(PresetName.U)!, .5));
+    Blendshape.setValue(PresetName.I, lerp(riggedFace.mouth.shape.I, Blendshape.getValue(PresetName.I)!, .5));
+    Blendshape.setValue(PresetName.A, lerp(riggedFace.mouth.shape.A, Blendshape.getValue(PresetName.A)!, .5));
+    Blendshape.setValue(PresetName.E, lerp(riggedFace.mouth.shape.E, Blendshape.getValue(PresetName.E)!, .5));
+    Blendshape.setValue(PresetName.O, lerp(riggedFace.mouth.shape.O, Blendshape.getValue(PresetName.O)!, .5));
+    Blendshape.setValue(PresetName.U, lerp(riggedFace.mouth.shape.U, Blendshape.getValue(PresetName.U)!, .5));
 
     const lookTarget = new THREE.Euler(
       lerp(this.oldLookTarget.x, riggedFace.pupil.y, 0.4),

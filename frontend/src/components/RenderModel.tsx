@@ -28,7 +28,7 @@ export const RenderModel = (props: { model: VRM }) => {
       <group>
         <primitive object={model.scene} />
       </group>
-      {/* <mesh> 
+      {/* <mesh>
           <boxGeometry args={[1, 1, 1]} />
           <meshStandardMaterial color={"orange"} />
         </mesh>  */}

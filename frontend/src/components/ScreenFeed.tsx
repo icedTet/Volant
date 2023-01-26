@@ -2,10 +2,10 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import { StreamMerger } from "../utils/classes/StreamMerger";
 
-export const ScreenFeed = ({enable, onError}: {enable: boolean, onError: (e) => void}) => {
+export const ScreenFeed = ({ enable, onError }: { enable: boolean, onError: (e) => void }) => {
   const camRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    if(!enable) return;
+    if (!enable) return;
     let stream = (async () => {
       if (!camRef.current || !globalThis.navigator) {
         console.error("No navigator");
@@ -37,7 +37,7 @@ export const ScreenFeed = ({enable, onError}: {enable: boolean, onError: (e) => 
     };
   }, [camRef, enable, onError]);
 
-  if(!enable) return <></>
+  if (!enable) return <></>
 
   return (
     <video

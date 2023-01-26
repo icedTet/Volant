@@ -1,7 +1,7 @@
-import { PerspectiveCamera, Vector3 } from "three";
+import { PerspectiveCamera } from "three";
 import { useSelectedModel } from "../utils/hooks/useVRMFile";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera as PCamera } from "@react-three/drei";
+import { PerspectiveCamera as PCamera } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { ModelRenderer } from "./Weeb/ModelRender";
 import React from "react";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ModelData, VRMLoader } from "../classes/VRMLoader";
+import { VRMLoader } from "../classes/VRMLoader";
 
 export const usePrimaryModel = () => {
   const [primaryModelID, setPrimaryModelID] = useState("");

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import React from "react";
 import { KalidokitController } from "../../utils/classes/KalidokitController";
 import { PerspectiveCamera, Vector3 } from "three";
+
 export const ModelRenderer = (props: {
   model: VRM;
   camera: React.MutableRefObject<PerspectiveCamera | null>;
@@ -17,7 +18,7 @@ export const ModelRenderer = (props: {
     console.log("ModelRenderear", model);
     if (!model) {
       console.log("Modle no exist!");
-      return () => {};
+      return () => { };
     }
     const controller = new KalidokitController(model);
     return () => {

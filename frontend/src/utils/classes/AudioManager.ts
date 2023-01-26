@@ -20,7 +20,7 @@ export class MicrophoneStreamer extends EventEmitter {
     if (!stream) return false;
     this.mediaStream = stream as MediaStream;
     this.emit("mediaStream", stream);
-    console.log(stream,"microphone");
+    console.log(stream, "microphone");
     StreamMerger.getInstance().setAudioStream(stream as MediaStream);
     return true;
   }

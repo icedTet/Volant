@@ -5,9 +5,6 @@ import { WeebFeed } from "../components/WeebFeed";
 import { MicrophoneStreamer } from "../utils/classes/AudioManager";
 import SocketConnection from "../utils/classes/SocketStreamer";
 import { StreamMerger } from "../utils/classes/StreamMerger";
-import Draggable from "react-draggable";
-import ReactDOM from "react-dom";
-import Sidebar from "../components/Sidebar";
 import {
   ComputerDesktopIcon,
   PauseIcon,

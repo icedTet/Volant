@@ -2,7 +2,6 @@ import Head from "next/head";
 import { AppProps } from "next/app";
 import "../styles/index.css";
 import { useEffect } from "react";
-import { FaceAI } from "../utils/classes/FaceAI";
 import React from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
