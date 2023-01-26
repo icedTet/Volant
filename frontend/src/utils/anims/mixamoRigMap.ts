@@ -1,3 +1,5 @@
+// currently usused; keep
+
 export const mixamoVRMRigMap = {
   mixamorigHips: "hips",
   mixamorigSpine: "spine",
